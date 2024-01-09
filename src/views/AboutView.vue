@@ -1,5 +1,16 @@
 <template>
   <main class="about">
-    <h1>About</h1>
+    <section class="Header">
+      <h1>About "A Noto"</h1>
+    </section>
+
+
 </main>
 </template>
+
+<script>
+    export default {
+    data() {
+    }
+  }
+</script>

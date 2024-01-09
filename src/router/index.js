@@ -5,25 +5,35 @@ import { auth } from '../firebase'
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'Accueil',
     component: HomeView,
-    // meta: {
-    //   requiresAuth: true
-    // }
   },
   {
     path: '/about',
-    name: 'about',
+    name: 'FAQ',
     component: () => import('../views/AboutView.vue'),
-    meta: {
-      requiresAuth: true
-    }  
+    // meta: {
+    //   requiresAuth: true
+    // }  
   },
   {
     path: '/login',
-    name: 'Login',
-    component: () => import('../views/LoginView.vue')
+    name: 'Connexion',
+    component: () => import('../views/LoginView.vue'), 
+  },
+  {
+    path: '/canvas',
+    name: 'Tableau de Bord',
+    component: () => import('../views/CanvasView.vue'),
+    meta: {
+      requiresAuth: true
+    }  
 
+  },
+  {
+    path: '/feat',
+    name: 'Fonctions',
+    component: () => import('../views/FeatView.vue'), 
   }
 
 ]
@@ -35,7 +45,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/login' && auth.currentUser) {
-    next('/')
+    next('/canvas')
     return;
   }
 

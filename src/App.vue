@@ -1,15 +1,32 @@
 <template>
-  <div id="nav" v-if="$store.state.user">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <button @click="$store.dispatch('logout')">Logout</button>
+  <div id="nav">
+    <nav class="navbar navbar-expand-lg">
+      <RouterLink to="/"><img src="../src/assets/logo_black_1.png" alt="logo" class="logo navbar-brand"></RouterLink>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="navbar-nav mr-auto">
+              <router-link class="nav-item nav-link" to="/">Home</router-link> 
+              <router-link class="nav-item nav-link" to="/about">FAQ</router-link>
+              <router-link class="nav-item nav-link" to="/feat">Fonctions</router-link>
+              <router-link class="nav-item nav-link right" to="/canvas">Get Started</router-link>
+          </div>
+        </div>
+      <button v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
+    </nav>
   </div>
+
   <router-view/>
+
+  <FooterView/>
 </template>
 
 <script>
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
+import FooterView from './components/FooterView.vue';
 
 export default{
   setup(){
@@ -18,35 +35,19 @@ export default{
     onBeforeMount(()=> {
       store.dispatch('fetchUser')
     })
-  }
+  },
+  components:{
+    FooterView
+  },
 }
 
 </script>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing: border-box;
-}
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+
+.navbar-brand{
+  width: 100px;
 }
 
-nav {
-  padding: 30px;
-}
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
