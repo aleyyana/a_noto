@@ -6,7 +6,7 @@
         </section>
 
         <section class="content">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
                     <div class="col">
                         <h4 class="text-center">Calendrier</h4>
@@ -16,7 +16,9 @@
                         show-weeknumbers="right"
                         :rows="2" 
                         :timezone="timezone"
-                        />
+                        :value="null"
+                        color="purple"
+                        is-range />
                     </div>
                     <div class="col">
                             <h4 class="text-center">Tâches à faire </h4>
@@ -28,7 +30,7 @@
                                     id="new-todo"
                                     placeholder="E.g. Feed the cat"
                                 />
-                                <button>Add</button>
+                                <button class="btn"> Ajouter </button>
                                 </form>
                                 <ul>
                                 <todo-item
@@ -41,16 +43,29 @@
                             </div>
                     </div>
                     <div class="col">
+
+                        <div v-if="showModal" class="overlay">
+                        <div class="modal">
+                            <textarea v-model.trim="newNote" name="note" id="note" cols="30" rows="10"></textarea>
+                            <p v-if="errorMessage">{{ errorMessage }}</p>
+                            <button @click="addNote">Add Note</button>
+                            <button class="cancel" @click="showModal = false">Cancel</button>
+                        </div>
+                        </div>
+
                         <h5 class="text-center">Notes importantes</h5>
-                            <form v-on:submit.prevent="addNewTodo">
-                                <input
-                                    type="text"
-                                    v-model="newTodoText"
-                                    id="new-todo"
-                                    placeholder="E.g. Feed the cat"
-                                />
-                                <button>Add</button>
-                            </form>
+                        <button class="btn" id="show-modal" @click="showModal = true">+</button>
+                        <div class="cards-container">
+                            <div
+                            v-for="note in notes"
+                            :key="note.id" 
+                            class="card"
+                            :style="{backgroundColor: note.backgroundColor}"
+                            >
+                            <p class="main-text">{{ note.text }}</p>
+                            <!-- <p class="date">{{ note.date.toLocaleDateString("en-GB") }}</p> -->
+        </div>
+      </div>
                     </div>    
                 </div>
             </div>
@@ -64,7 +79,12 @@
 <script>
 
 import TodoItemVue from "../components/TodoItem.vue";
-import { mapGetters, mapState, mapActions } from 'vuex';
+import { ref } from 'vue';
+
+const showModal = ref(false);
+const newNote = ref({});
+const errorMessage = ref({});
+const notes = ref({});
 
 export default{
     setup(){
@@ -78,19 +98,12 @@ export default{
             todos: [
                 {
                 id: 1,
-                title: "Do the dishes",
-                },
-                {
-                id: 2,
-                title: "Take out the trash",
-                },
-                {
-                id: 3,
-                title: "Mow the lawn",
+                title: "Faire la vaisselle",
                 },
             ],
-            nextTodoId: 4,
-            newNote: ""
+            nextTodoId: 2,
+            newNote: "",
+            showModal: false,
         };
     },
     methods: {
@@ -101,26 +114,37 @@ export default{
         });
         this.newTodoText = "";
         },
-        addNewNote() {
-        this.newNote.push({
-        id: this.nextNewNote++,
-        title: this.newNote,
-        });
-        this.newNote = "";
-        },
-        ...mapActions('journal', ['addDay'])
+        addNote(){
+            if(newNote.value.length < 10) {
+            return errorMessage.value = "Note must be at least 10 characters long!";
+            }
+
+            notes.value.push({
+            id: Math.floor(Math.random() * 1000000),
+            text: newNote.value,
+            date: new Date(),
+            });
+            showModal.value = false;
+            newNote.value = "";
+            errorMessage.value = "";
+        }
     },
-    computed: {
-    ...mapState({
-      //checkoutStatus: state => state.cart.checkoutStatus
-    }),
-    ...mapGetters('journal', {
-      days: 'journalDays'
-    })
-  },
+    computed:{
+        notes(){
+            return this.$store.state.string
+        }
+    }
 }
+
 
 </script>
 <style>
+
+.btn{
+    padding: 10px;
+    width: 100px;
+    background-color: #f1b598;
+    border-radius: 30%
+}
 
 </style>

@@ -11,10 +11,11 @@
               <router-link class="nav-item nav-link" to="/">Home</router-link> 
               <router-link class="nav-item nav-link" to="/about">FAQ</router-link>
               <router-link class="nav-item nav-link" to="/feat">Fonctions</router-link>
-              <router-link class="nav-item nav-link right" to="/canvas">Get Started</router-link>
+              <router-link class="nav-item nav-link" to="/canvas">Get Started</router-link>
+              <TestView class="nav-item nav-link"/>
+              <button class="nav-item nav-link" v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
           </div>
         </div>
-      <button v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
     </nav>
   </div>
 
@@ -27,6 +28,7 @@
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import FooterView from './components/FooterView.vue';
+import TestView from './components/TestView.vue';
 
 export default{
   setup(){
@@ -37,7 +39,8 @@ export default{
     })
   },
   components:{
-    FooterView
+    FooterView,
+    TestView
   },
 }
 
@@ -45,9 +48,27 @@ export default{
 
 <style>
 
+html{
+  scroll-behavior: smooth;
+}
+
 .navbar-brand{
   width: 100px;
 }
+
+h1, h2, h3, h4, h5{
+  font-family: Moniqa, sans-serif;
+}
+
+p{
+  font-family: Excon-Regular, sans-serif;
+  color:#ACAEC5;
+}
+
+.nav-link{
+  color:#ACAEC5;
+}
+
 
 
 </style>

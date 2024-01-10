@@ -1,6 +1,4 @@
 import { createStore } from 'vuex'
-import journal from "./modules/journal";
-import entries from "./modules/entries";
 import router from '../router'
 import { auth } from '../firebase'
 import { 
@@ -10,12 +8,6 @@ import {
 } from 'firebase/auth'
 
 export default createStore({
-  modules:{
-    journal,
-    entries
-  },
-  strict: true,
-  plugins: [],
   state: {
     user:null
   },
@@ -51,7 +43,7 @@ export default createStore({
       }
 
       commit ('SET_USER', auth.currentUser)
-      router.push('/')
+      router.push('/canvas')
     },
     async register ({ commit }, details){
       const { email, password } = details
@@ -80,7 +72,7 @@ export default createStore({
       }
 
       commit ('SET_USER', auth.currentUser)
-      router.push('/')
+      router.push('/canvas')
 
     },
     async logout ({ commit } ){
