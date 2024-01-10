@@ -1,16 +1,18 @@
 <template>
   <main class="about">
     <section class="Header">
-      <h1>About "A Noto"</h1>
+      <h1 class="text-center">A Noto, c'est quoi</h1>
+      
     </section>
+    <section class="info">
 
-
-</main>
+    </section>
+    <section class="faq">
+    </section>
+  </main>
 </template>
 
-<script>
-    export default {
-    data() {
-    }
-  }
+<script lang="ts" setup>
+
+
 </script>

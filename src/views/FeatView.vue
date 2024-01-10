@@ -1,10 +1,20 @@
 <template>
     <main>
-        <h1>Fonctionnalités du site</h1>
+        <h1 class="text-center">Fonctionnalités du site</h1>
+
     </main>
 </template>
 
 <script>
+
+
+export default{
+    setup(){
+
+    },
+    components:{
+    }
+}
 
 </script>
 

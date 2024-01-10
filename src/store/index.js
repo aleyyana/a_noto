@@ -1,4 +1,6 @@
 import { createStore } from 'vuex'
+import journal from "./modules/journal";
+import entries from "./modules/entries";
 import router from '../router'
 import { auth } from '../firebase'
 import { 
@@ -8,6 +10,12 @@ import {
 } from 'firebase/auth'
 
 export default createStore({
+  modules:{
+    journal,
+    entries
+  },
+  strict: true,
+  plugins: [],
   state: {
     user:null
   },
