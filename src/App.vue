@@ -12,10 +12,10 @@
               <router-link class="nav-item nav-link" to="/about">FAQ</router-link>
               <router-link class="nav-item nav-link" to="/feat">Fonctions</router-link>
               <router-link class="nav-item nav-link" to="/canvas">Get Started</router-link>
-              <TestView class="nav-item nav-link"/>
-              <button class="nav-item nav-link" v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
           </div>
         </div>
+        <TestView class="nav-item nav-link"/>
+        <button class="btn_logout" v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
     </nav>
   </div>
 
@@ -28,7 +28,6 @@
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import FooterView from './components/FooterView.vue';
-import TestView from './components/TestView.vue';
 
 export default{
   setup(){
@@ -39,8 +38,7 @@ export default{
     })
   },
   components:{
-    FooterView,
-    TestView
+    FooterView
   },
 }
 
@@ -52,23 +50,29 @@ html{
   scroll-behavior: smooth;
 }
 
+.btn_logout{
+  padding: 10px;
+    width: 100px;
+    background-color: #f1b598;
+    border-radius: 30%
+}
+
 .navbar-brand{
   width: 100px;
 }
 
 h1, h2, h3, h4, h5{
   font-family: Moniqa, sans-serif;
+  color: #e3826f;
 }
 
 p{
   font-family: Excon-Regular, sans-serif;
-  color:#ACAEC5;
+  color:#7F803E;
 }
 
 .nav-link{
-  color:#ACAEC5;
+  color:#7F803E;
 }
-
-
 
 </style>
