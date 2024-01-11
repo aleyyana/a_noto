@@ -63,7 +63,7 @@ html{
 
 h1, h2, h3, h4, h5{
   font-family: Moniqa, sans-serif;
-  color: #D3C7E6;
+  color: #7F803E;
 }
 
 p{
