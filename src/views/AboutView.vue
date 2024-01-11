@@ -81,6 +81,7 @@
 .card-title{
   font-family: Excon-Medium, sans-serif;
   font-size: 1.2rem;
+  color: #7F803E;
 }
 
 </style>
