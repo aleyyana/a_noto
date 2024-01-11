@@ -62,7 +62,7 @@ export default createStore({
             alert("Action non autorisée")
           break
           case 'auth/weak-password':
-            alert("Password faible")
+            alert("Mot de passe faible")
           break
           default: 
           alert("Quelque chose n'a pas fonctionné")
