@@ -14,7 +14,7 @@
         </div>
         
         <div class="impressum col-xs-12 col-sm-3 col-sm-pull-6">
-          <RouterLink to="/" ><img src="../assets/img/logo_black.png" alt="logo" class="img"></RouterLink>
+          <RouterLink to="/" ><img src="../assets/img/logo_black_1.png" alt="logo" class="img"></RouterLink>
           <p>A Noto</p>
         </div>
       </footer>
