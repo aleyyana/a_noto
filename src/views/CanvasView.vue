@@ -20,7 +20,7 @@
                         color="purple"
                         is-range />
                     </div>
-                    <div class="col">
+                    <div class="col mx-auto">
                             <h4 class="text-center">Tâches à faire </h4>
                             <VDatePicker v-model="date" mode="time" />
                             <div>
@@ -142,13 +142,33 @@ export default{
 
 
 </script>
-<style>
+<style scoped>
 
 .btn{
     padding: 10px;
     width: 100px;
     background-color: #f1b598;
     border-radius: 0.5rem;
+}
+
+form{
+    display: flex;
+    flex: 1 1 0%;
+    padding: 1rem;
+}
+
+input{
+    appearance: none;
+    border: none; 
+    outline:none;
+    background: none;
+
+    font-size: 1rem;
+}
+
+form input[type="text"]{
+    color:#f1b598;
+    border-bottom: 2px solid #f1b598;
 }
 
 </style>

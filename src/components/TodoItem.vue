@@ -19,4 +19,11 @@
     li{
       list-style:georgian;
     }
+
+    .btn{
+    padding: 10px;
+    width: 100px;
+    background-color: #f1b598;
+    border-radius: 0.5rem;
+    }
   </style>
