@@ -22,6 +22,7 @@
                     </div>
                     <div class="col">
                             <h4 class="text-center">Tâches à faire </h4>
+                            <VDatePicker v-model="date" mode="time" />
                             <div>
                                 <form v-on:submit.prevent="addNewTodo">
                                 <input
@@ -42,7 +43,7 @@
                                 </ul>
                             </div>
                     </div>
-                    <div class="col">
+                    <!-- <div class="col">
 
                         <div v-if="showModal" class="overlay">
                         <div class="modal">
@@ -63,10 +64,9 @@
                             :style="{backgroundColor: note.backgroundColor}"
                             >
                             <p class="main-text">{{ note.text }}</p>
-                            <!-- <p class="date">{{ note.date.toLocaleDateString("en-GB") }}</p> -->
-        </div>
-      </div>
-                    </div>    
+                            </div>
+                        </div>
+                    </div>     -->
                 </div>
             </div>
         </section>
@@ -88,6 +88,10 @@ const notes = ref({});
 
 export default{
     setup(){
+        const date = ref(new Date());
+        return{
+            date
+        }
     },
     components:{
         TodoItem: TodoItemVue,
@@ -144,7 +148,7 @@ export default{
     padding: 10px;
     width: 100px;
     background-color: #f1b598;
-    border-radius: 30%
+    border-radius: 0.5rem;
 }
 
 </style>

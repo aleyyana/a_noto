@@ -3,6 +3,7 @@
     <section class="Header">
       <h1 class="text-center">A Noto, c'est quoi ?</h1>
     </section>
+    <div class="blank-space"></div>
     <section class="info">
 
       <div class="container">
@@ -29,8 +30,36 @@
         </div>
       </div>
 
+      <div class="blank-space"></div>
     </section>
     <section class="faq">
+        <div class="container">
+            <h1 class="text-center"> Foire à questions</h1>
+            <div class="card">
+                <div class="card-body">
+                <h3 class="card-title text-center">Qu'est-ce qu'un Bullet Journal ?</h3>
+                <p class="card-text">Le concept de Bullet Journal est apparu grâce à un designer du nom de <i>Ryder Carroll</i>.
+                C'est une méthode d'organisation personnelle et personnalisable qui se fait sous la forme de cahiers. 
+                </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                <h3 class="card-title text-center">A Noto est-il aussi efficace qu'un vrai Bullet Journal ?</h3>
+                <p class="card-text"> Comme c'est une version numérique encore en développement, l'utilisateur peut déjà y faire quelques activités. 
+                  D'autres activités pourraient effectivement s'ajouter se rapprochant donc d'un vrai Bullet Journal. 
+                </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                <h3 class="card-title text-center">Un Bullet Journal, ça demande beaucoup de créativité ?</h3>
+                <p class="card-text">En général, ceux qui font des Bullet journal papier sont très créatifs. Ce n'est pas ce qui est important sur A Noto étant 
+                  donné qu'il est là surtout pour aider son utilisateur à y noter les tâches importantes à faire.
+                </p>
+                </div>
+            </div>
+        </div>
     </section>
   </main>
 </template>
@@ -44,5 +73,14 @@
   .img_about{
     height: 50vh;
   }
+
+  .blank-space{
+  height: 80px;
+}
+
+.card-title{
+  font-family: Excon-Medium, sans-serif;
+  font-size: 1.2rem;
+}
 
 </style>

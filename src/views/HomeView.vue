@@ -38,7 +38,6 @@
 
 <script>
 
-
  export default{
   components: {
   }
@@ -49,8 +48,10 @@
 <style scoped>
 
 img{
+  /* width: 729px; */
   max-width: 100%;
-  max-height: 100vh;
+  height: 526px;
+  flex-shrink: 0; 
 }
 
 .blank-space{

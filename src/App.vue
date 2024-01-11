@@ -54,7 +54,7 @@ html{
   padding: 10px;
     width: 100px;
     background-color: #f1b598;
-    border-radius: 30%
+    border-radius: 1.5rem;
 }
 
 .navbar-brand{
