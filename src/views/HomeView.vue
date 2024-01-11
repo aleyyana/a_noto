@@ -31,7 +31,20 @@
       </div>
     </section>
     <section class="video">
+      <div class="container video text-center">
+      <video height="500" ref="videoPlayer" class="responsive_video">
+          <source
+            src="../assets/video/A-Noto.mp4"
+            type="video/mp4"
+          />
+    </video>
 
+    <div class="text-center">
+          <button class="primary btn px-4 py-2 m-1" @click="play"><img class="controls" src="../assets/img/play.png" alt=""> </button>
+          <button class="primary btn px-4 py-2 m-1" @click="pause"><img class="controls" src="../assets//img/pause.png" alt=""></button>
+          <button class="primary btn px-4 py-2 m-1" @click="stop"><img class="controls" src="../assets/img/stop.png" alt=""></button>
+      </div>
+    </div>
     </section>
   </main>
 </template>
@@ -40,6 +53,22 @@
 
  export default{
   components: {
+  },
+  methods:{
+    play() {
+      this.$refs.videoPlayer.play();
+    },
+    pause() {
+      this.$refs.videoPlayer.pause();
+    },
+    stop() {
+      const { videoPlayer } = this.$refs;
+      videoPlayer.pause();
+      videoPlayer.currentTime = 0;
+    },
+    setSpeed(speed) {
+      this.$refs.videoPlayer.playbackRate = speed;
+    },
   }
  } 
 
@@ -54,12 +83,30 @@ img{
   flex-shrink: 0; 
 }
 
+.video{
+  padding: 0;
+  margin:0  auto;
+}
+
+
 .blank-space{
   height: 20px;
 }
 
 .question{
   font-weight: bolder;
+}
+
+.btn{
+  padding: 10px;
+    background-color: #f1b598;
+    border-radius: 0.5rem;
+
+}
+
+.controls{
+  height:1.5rem;
+  width:1.5rem;
 }
 
 
