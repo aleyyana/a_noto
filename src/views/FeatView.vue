@@ -25,7 +25,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col text-center">
-                        <h4 class="text-center">Le calendrier</h4>
+                        <h4 class="text-center">La liste des tâches à faire</h4>
                         <p class="text_feat">Garde toujours tes tâches notées, cela te permet de ne rien oublier et surtout de savoir gérer ton temps. 
                             Aucun tracas, avec A Noto, tu sauras toujours quelles sont tes tâches et tu les feras quand tu veux. Malheureusement, si t'oublies 
                             dans ta tête, c'est point la faute de A Noto. Alors, note toujours tes tâches, ça facilite la vie.

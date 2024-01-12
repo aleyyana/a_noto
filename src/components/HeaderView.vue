@@ -1,7 +1,7 @@
 <template>
 
   <div id="nav" class="header">
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-fixed-top">
       <RouterLink to="/"><img src="../assets/img/logo_black.png" alt="logo" class="logo navbar-brand"></RouterLink>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

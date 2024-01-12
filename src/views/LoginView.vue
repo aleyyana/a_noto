@@ -90,7 +90,7 @@ main{
 .forms{
     display: flex;
     min-height:94vh;
-    border: #000 1px;
+    border: #261E1C 1px;
 }
 
 form{
@@ -108,6 +108,15 @@ h2{
     text-transform: uppercase;
     font-family: Excon-Bold, sans-serif;
 }
+
+h2.register{
+    color:#FFF;
+}
+
+h2.login{
+    color:#261E1C;
+}
+
 
 input{
     appearance: none;
@@ -142,8 +151,8 @@ form.register input:not([type="submit"]){
 }
 
 form.login input:not([type="submit"]){
-    color:#000;
-    border-bottom: 2px solid #000;
+    color:#261E1C;
+    border-bottom: 2px solid #261E1C;
 }
 
 form.login input[type="submit"]{
