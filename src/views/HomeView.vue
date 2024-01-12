@@ -1,4 +1,5 @@
 <template>
+  <HeaderView/>
   <main class="home">
     <h1 class="text-center">Accueil</h1>
     <section class="about">
@@ -50,9 +51,11 @@
 </template>
 
 <script>
+import HeaderView from '../components/HeaderView.vue'
 
  export default{
   components: {
+    HeaderView
   },
   methods:{
     play() {

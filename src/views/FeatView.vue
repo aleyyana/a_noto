@@ -1,4 +1,5 @@
 <template>
+    <HeaderView/>
     <main>
         <h1 class="text-center">Fonctionnalités du site</h1>
         <section class="calendar">
@@ -40,13 +41,14 @@
 </template>
 
 <script>
-
+import HeaderView from '../components/HeaderView.vue'
 
 export default{
     setup(){
 
     },
     components:{
+        HeaderView
     }
 }
 

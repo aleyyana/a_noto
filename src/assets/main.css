@@ -1,10 +1,18 @@
 @import './css/base.css';
 
 *{
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     padding: 0;
     margin:0;
   }
+
+
+  h1{
+    font-size:5em;
+    font-family: Moniqa, sans-serif;
+    color: #7F803E;
+  }
+  
 
 
   
