@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import "firebase/compat/storage";
-import { getFirestore } from "firebase/firestore";
+import {getFirestore} from 'firebase/firestore'
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,13 +13,13 @@ const firebaseConfig = {
   storageBucket: "vue-auth-tfe.appspot.com",
   messagingSenderId: "611098957271",
   appId: "1:611098957271:web:c928f46428754ee43ae792",
-  storageBucket: 'gs://vue-auth-tfe.appspot.com',
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const storage = firebase.storage();
-const db = firebase.firestore();
+const fire = getFirestore(app);
 
-export { auth }
+export { auth, fire}
+
+console.log('hi')
