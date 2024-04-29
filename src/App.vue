@@ -45,7 +45,7 @@ html{
 
 
 
-h1, h2, h3, h4, h5{
+/* h1, h2, h3, h4, h5{
   font-family: Moniqa, sans-serif;
   color: #7F803E;
 }
@@ -55,7 +55,7 @@ h1, h2, h3, h4, h5{
 p{
   font-family: Excon-Regular, sans-serif;
   color:#7F803E;
-}
+} */
 
 .nav-link{
   color:#7F803E;

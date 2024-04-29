@@ -6,10 +6,27 @@
         </section>
 
         <section class="content">
+            <div class="font-changer">
+                <label for="fontSelect">Select Font:</label>
+                <select id="fontSelect" v-model="selectedFont">
+                <option value="Moniqa">Moniqa</option>
+                <option value="Excon-Regular">Excon Excon-Regular</option>
+                </select>
+            </div>
+
+                <div class="color-changer">
+                <div class="controls">
+ 
+                <label for="fontColor">Font Color:</label>
+                <input type="color" id="fontColor" v-model="fontColor" />
+                </div>
+
+            </div>
+
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <h4 class="text-center">Calendrier</h4>
+                        <h4 :style="{ fontFamily: selectedFont, color: fontColor }" class="text-center">Calendrier</h4>
                         <v-date-picker 
                         mode="date" v-model="date" 
                         v-model.range="range" 
@@ -34,7 +51,7 @@
                                 <button class="btn"> Ajouter </button>
                                 </form>
                                 <ul>
-                                <todo-item
+                                <todo-item :style="{ fontFamily: selectedFont, color: fontColor }" 
                                     v-for="(todo, index) in todos"
                                     :key="todo.id"
                                     :title="todo.title"
@@ -43,30 +60,6 @@
                                 </ul>
                             </div>
                     </div>
-                    <!-- <div class="col">
-
-                        <div v-if="showModal" class="overlay">
-                        <div class="modal">
-                            <textarea v-model.trim="newNote" name="note" id="note" cols="30" rows="10"></textarea>
-                            <p v-if="errorMessage">{{ errorMessage }}</p>
-                            <button @click="addNote">Add Note</button>
-                            <button class="cancel" @click="showModal = false">Cancel</button>
-                        </div>
-                        </div>
-
-                        <h5 class="text-center">Notes importantes</h5>
-                        <button class="btn" id="show-modal" @click="showModal = true">+</button>
-                        <div class="cards-container">
-                            <div
-                            v-for="note in notes"
-                            :key="note.id" 
-                            class="card"
-                            :style="{backgroundColor: note.backgroundColor}"
-                            >
-                            <p class="main-text">{{ note.text }}</p>
-                            </div>
-                        </div>
-                    </div>     -->
                 </div>
             </div>
         </section>
@@ -81,10 +74,6 @@
 import TodoItemVue from "../components/TodoItem.vue";
 import { ref } from 'vue';
 
-const showModal = ref(false);
-const newNote = ref({});
-const errorMessage = ref({});
-const notes = ref({});
 
 export default{
     setup(){
@@ -106,8 +95,9 @@ export default{
                 },
             ],
             nextTodoId: 2,
-            newNote: "",
-            showModal: false,
+            selectedFont: 'Excon',
+            fontColor: "#000000", // Default font color (black)
+            backgroundColor: "#ffffff", // Default background color (white)
         };
     },
     methods: {
@@ -117,25 +107,6 @@ export default{
         title: this.newTodoText,
         });
         this.newTodoText = "";
-        },
-        addNote(){
-            if(newNote.value.length < 10) {
-            return errorMessage.value = "Note must be at least 10 characters long!";
-            }
-
-            notes.value.push({
-            id: Math.floor(Math.random() * 1000000),
-            text: newNote.value,
-            date: new Date(),
-            });
-            showModal.value = false;
-            newNote.value = "";
-            errorMessage.value = "";
-        }
-    },
-    computed:{
-        notes(){
-            return this.$store.state.string
         }
     }
 }
