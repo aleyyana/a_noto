@@ -1,11 +1,9 @@
 <template>
     <main>
 
-        <section class="header">
-            <h1 class="text-center"> Your Bullet Time</h1>
-        </section>
+        <PageManagement/>
 
-        <section class="content">
+        <!-- <section class="content">
             <div class="font-changer">
                 <label for="fontSelect">Select Font:</label>
                 <select id="fontSelect" v-model="selectedFont">
@@ -62,7 +60,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         
     </main>
@@ -71,8 +69,8 @@
 
 <script>
 
-import TodoItemVue from "../components/TodoItem.vue";
 import { ref } from 'vue';
+import PageManagement from '../components/PageManagement.vue'
 
 
 export default{
@@ -83,31 +81,29 @@ export default{
         }
     },
     components:{
-        TodoItem: TodoItemVue,
+        // TodoItem: TodoItemVue,
+        PageManagement,
     },
     data() {
         return {
-            newTodoText: "",
-            todos: [
-                {
-                id: 1,
-                title: "Faire la vaisselle",
-                },
-            ],
-            nextTodoId: 2,
-            selectedFont: 'Excon',
-            fontColor: "#000000", // Default font color (black)
-            backgroundColor: "#ffffff", // Default background color (white)
+            // newTodoText: "",
+            // todos: [
+            //     {
+            //     id: 1,
+            //    title: "Faire la vaisselle",
+            //   },
+            // ],
+            // nextTodoId: 2,
         };
     },
     methods: {
-        addNewTodo() {
-        this.todos.push({
-        id: this.nextTodoId++,
-        title: this.newTodoText,
-        });
-        this.newTodoText = "";
-        }
+        // addNewTodo() {
+        // this.todos.push({
+        // id: this.nextTodoId++,
+        // title: this.newTodoText,
+        // });
+        // this.newTodoText = "";
+        // }
     }
 }
 
