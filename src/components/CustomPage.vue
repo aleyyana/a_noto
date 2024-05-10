@@ -43,8 +43,8 @@
       <div class="content" :style="{ backgroundColor: backgroundColor }">
         <textarea
           v-model="content"
-          placeholder="Add some content here..."
-          :style="{ fontFamily: selectedFont }"
+          placeholder="Add some content here..." 
+          :style="{ fontFamily: selectedFont, color:fontColor }"
         ></textarea>
       </div>
     </div>
