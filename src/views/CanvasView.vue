@@ -1,8 +1,5 @@
 <template>
     <main>
-
-        <PageManagement/>
-
         <!-- <section class="content">
             <div class="font-changer">
                 <label for="fontSelect">Select Font:</label>
@@ -61,8 +58,7 @@
                 </div>
             </div>
         </section> -->
-
-        
+        <ComponentManager />
     </main>
     
 </template>
@@ -70,8 +66,7 @@
 <script>
 
 import { ref } from 'vue';
-import PageManagement from '../components/PageManagement.vue'
-
+import ComponentManager from '../components/ComponentManager.vue'
 
 export default{
     setup(){
@@ -82,7 +77,7 @@ export default{
     },
     components:{
         // TodoItem: TodoItemVue,
-        PageManagement,
+        ComponentManager
     },
     data() {
         return {
