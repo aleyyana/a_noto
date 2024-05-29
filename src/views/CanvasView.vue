@@ -1,136 +1,102 @@
 <template>
-    <main>
-        <!-- <section class="content">
-            <div class="font-changer">
-                <label for="fontSelect">Select Font:</label>
-                <select id="fontSelect" v-model="selectedFont">
-                <option value="Moniqa">Moniqa</option>
-                <option value="Excon-Regular">Excon Excon-Regular</option>
-                </select>
-            </div>
-
-                <div class="color-changer">
-                <div class="controls">
- 
-                <label for="fontColor">Font Color:</label>
-                <input type="color" id="fontColor" v-model="fontColor" />
-                </div>
-
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <h4 :style="{ fontFamily: selectedFont, color: fontColor }" class="text-center">Calendrier</h4>
-                        <v-date-picker 
-                        mode="date" v-model="date" 
-                        v-model.range="range" 
-                        show-weeknumbers="right"
-                        :rows="2" 
-                        :timezone="timezone"
-                        :value="null"
-                        color="purple"
-                        is-range />
-                    </div>
-                    <div class="col mx-auto">
-                            <h4 class="text-center">Tâches à faire </h4>
-                            <VDatePicker v-model="date" mode="time" />
-                            <div>
-                                <form v-on:submit.prevent="addNewTodo">
-                                <input
-                                    type="text"
-                                    v-model="newTodoText"
-                                    id="new-todo"
-                                    placeholder="E.g. Feed the cat"
-                                />
-                                <button class="btn"> Ajouter </button>
-                                </form>
-                                <ul>
-                                <todo-item :style="{ fontFamily: selectedFont, color: fontColor }" 
-                                    v-for="(todo, index) in todos"
-                                    :key="todo.id"
-                                    :title="todo.title"
-                                    @remove="todos.splice(index, 1)"
-                                ></todo-item>
-                                </ul>
-                            </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-        <ComponentManager />
-    </main>
-    
+  <div class="canvas-container">
+    <div class="sidebar">
+      <button @click="addElement('NoteView')">Add Note</button>
+      <button @click="addElement('ImgComponent')">Add Image</button>
+    </div>
+    <div class="canvas dot-grid">
+      <vue-draggable-resizable
+        v-for="(element, index) in elements"
+        :key="index"
+        :w="element.width"
+        :h="element.height"
+        :x="element.x"
+        :y="element.y"
+        @resizing="resizeElement($event, index)"
+        @dragging="dragElement($event, index)"
+      >
+        <component :is="element.type" :props="element.props" @update-props="updateElementProps(index, $event)" />
+      </vue-draggable-resizable>
+    </div>
+  </div>
 </template>
 
 <script>
+import VueDraggableResizable from 'vue-draggable-resizable';
+import NoteView from '../components/NoteView.vue';
+import ImgComponent from '../components/ImgComponent.vue'
 
-import { ref } from 'vue';
-import ComponentManager from '../components/ComponentManager.vue'
-
-export default{
-    setup(){
-        const date = ref(new Date());
-        return{
-            date
-        }
+export default {
+  components: {
+    VueDraggableResizable,
+    NoteView,
+    ImgComponent
+  },
+  data() {
+    return {
+      elements: JSON.parse(localStorage.getItem('canvas-elements')) || [], // Load from local storage
+    };
+  },
+  methods: {
+    addElement(type) {
+      const newElement = {
+        type: 'Note',
+        x: 50,
+        y: 50,
+        width: 200,
+        height: 100,
+        props: {
+          text: 'New Note',
+          fontSize: 16,
+          fontColor: '#000000',
+          backgroundColor: '#ffffff',
+        },
+      };
+      this.elements.push(newElement);
+      this.saveElements();
     },
-    components:{
-        // TodoItem: TodoItemVue,
-        ComponentManager
+    resizeElement(event, index) {
+      this.elements[index].width = event.width;
+      this.elements[index].height = event.height;
+      this.saveElements();
     },
-    data() {
-        return {
-            // newTodoText: "",
-            // todos: [
-            //     {
-            //     id: 1,
-            //    title: "Faire la vaisselle",
-            //   },
-            // ],
-            // nextTodoId: 2,
-        };
+    dragElement(event, index) {
+      this.elements[index].x = event.left;
+      this.elements[index].y = event.top;
+      this.saveElements();
     },
-    methods: {
-        // addNewTodo() {
-        // this.todos.push({
-        // id: this.nextTodoId++,
-        // title: this.newTodoText,
-        // });
-        // this.newTodoText = "";
-        // }
-    }
-}
-
-
+    updateElementProps(index, updatedProps) {
+      this.$set(this.elements, index, {
+        ...this.elements[index],
+        props: updatedProps,
+      });
+      this.saveElements();
+    },
+    saveElements() {
+      localStorage.setItem('canvas-elements', JSON.stringify(this.elements));
+    },
+  },
+};
 </script>
+
 <style scoped>
-
-.btn{
-    padding: 10px;
-    width: 100px;
-    background-color: #f1b598;
-    border-radius: 0.5rem;
+.canvas-container {
+  display: flex;
 }
-
-form{
-    display: flex;
-    flex: 1 1 0%;
-    padding: 1rem;
+.sidebar {
+  width: 200px;
+  background-color: #f0f0f0;
+  padding: 10px;
 }
-
-input{
-    appearance: none;
-    border: none; 
-    outline:none;
-    background: none;
-
-    font-size: 1rem;
+.canvas {
+  flex-grow: 1;
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
 }
-
-form input[type="text"]{
-    color:#f1b598;
-    border-bottom: 2px solid #f1b598;
+.dot-grid {
+  background-color: #ffffff; /* Set the base background color */
+  background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
+  background-size: 20px 20px; /* Adjust the size of the grid */
 }
-
 </style>
