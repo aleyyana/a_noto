@@ -1,8 +1,9 @@
 <template>
   <div class="canvas-container">
     <div class="sidebar">
-      <button @click="addElement('NoteView')">Add Note</button>
+      <button @click="addElement('note')">Add Note</button>
       <button @click="addElement('ImgComponent')">Add Image</button>
+      <button @click="cleanElements">Clear Canvas</button>
     </div>
     <div class="canvas dot-grid">
       <vue-draggable-resizable
@@ -23,13 +24,13 @@
 
 <script>
 import VueDraggableResizable from 'vue-draggable-resizable';
-import NoteView from '../components/NoteView.vue';
-import ImgComponent from '../components/ImgComponent.vue'
+import Note from '../components/NoteView.vue';
+import ImgComponent from '../components/ImgComponent.vue';
 
 export default {
   components: {
     VueDraggableResizable,
-    NoteView,
+    Note,
     ImgComponent
   },
   data() {
@@ -40,42 +41,42 @@ export default {
   methods: {
     addElement(type) {
       const newElement = {
-        type: 'Note',
+        type: type,
         x: 50,
         y: 50,
-        width: 200,
-        height: 100,
-        props: {
-          text: 'New Note',
-          fontSize: 16,
-          fontColor: '#000000',
-          backgroundColor: '#ffffff',
-        },
+        width: type === 'ImageComponent' ? 200 : 200,
+        height: type === 'ImageComponent' ? 200 : 100,
+        props: type === 'ImageComponent' ? { src: '', width: 200, height: 200 } : { text: 'New Note', fontSize: 16, fontColor: '#000000', backgroundColor: '#ffffff' },
       };
       this.elements.push(newElement);
-      this.saveElements();
+      // this.saveElements();
     },
     resizeElement(event, index) {
       this.elements[index].width = event.width;
       this.elements[index].height = event.height;
-      this.saveElements();
+      // this.saveElements();
     },
     dragElement(event, index) {
       this.elements[index].x = event.left;
       this.elements[index].y = event.top;
-      this.saveElements();
+      // this.saveElements();
     },
     updateElementProps(index, updatedProps) {
-      this.$set(this.elements, index, {
+      this.$emit(this.elements, index, {
         ...this.elements[index],
         props: updatedProps,
       });
-      this.saveElements();
+      // this.saveElements();
     },
-    saveElements() {
-      localStorage.setItem('canvas-elements', JSON.stringify(this.elements));
-    },
-  },
+
+    cleanElement(elements){
+      this.elements.splice(0, elements.length)
+    }
+    // saveElements() {
+    //   localStorage.setItem('canvas-elements', JSON.stringify(this.elements));
+    // },
+  },  
+
 };
 </script>
 
