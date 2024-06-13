@@ -1,8 +1,8 @@
 <template>
   <div class="canvas-container">
     <div class="sidebar">
-      <button @click="addElement('NoteView')">Add Note</button>
-      <button @click="addElement('ImgComponent')">Add Image</button>
+      <button @click="addElement('Note')">Add Note</button>
+      <button @click="addElement('ImageComponent')">Add Image</button>
       <button @click="clearCanvas">Clear Canvas</button>
     </div>
     <div class="canvas dot-grid">
@@ -15,6 +15,7 @@
         :y="element.y"
         @resizing="resizeElement($event, index)"
         @dragging="dragElement($event, index)"
+        @contextmenu.prevent="showContextMenu($event, index)"
       >
         <component :is="element.type" v-bind="element.props" @update-props="updateElementProps(index, $event)" />
       </vue-draggable-resizable>
@@ -25,14 +26,14 @@
 <script>
 import { reactive, toRefs } from 'vue';
 import VueDraggableResizable from 'vue-draggable-resizable';
-import NoteView from '../components/NoteView.vue';
-import ImgComponent from '../components/ImgComponent.vue';
+import Note from '../components/NoteView.vue';
+import ImageComponent from '../components/ImageComponent.vue';
 
 export default {
   components: {
     VueDraggableResizable,
-    NoteView,
-    ImgComponent,
+    Note,
+    ImageComponent,
   },
   setup() {
     const state = reactive({
@@ -48,7 +49,7 @@ export default {
         height: type === 'ImageComponent' ? 200 : 100,
         props: type === 'ImageComponent'
           ? { src: '', width: 200, height: 200 }
-          : { text: 'New Note', fontSize: 16, fontColor: '#000000', backgroundColor: '#ffffff' },
+          : { text: 'New Note', fontSize: 16, fontFamily: 'Arial', fontColor: '#000000', backgroundColor: '#ffffff' },
       };
       state.elements.push(newElement);
       saveElements();
