@@ -2,6 +2,7 @@
   <div class="canvas-container">
     <div class="sidebar">
       <button @click="addElement('Note')">Add Note</button>
+      <button @click="addElement('ToDoList')">Add To-Do List</button>
       <button @click="addElement('ImageComponent')">Add Image</button>
       <button @click="clearCanvas">Clear Canvas</button>
     </div>
@@ -15,7 +16,6 @@
         :y="element.y"
         @resizing="resizeElement($event, index)"
         @dragging="dragElement($event, index)"
-        @contextmenu.prevent="showContextMenu($event, index)"
       >
         <component :is="element.type" v-bind="element.props" @update-props="updateElementProps(index, $event)" />
       </vue-draggable-resizable>
@@ -26,18 +26,21 @@
 <script>
 import { reactive, toRefs } from 'vue';
 import VueDraggableResizable from 'vue-draggable-resizable';
+// import 'vue-draggable-resizable/dist/VueDraggableResizable.css';
 import Note from '../components/NoteView.vue';
+import ToDoList from '../components/ToDoList.vue';
 import ImageComponent from '../components/ImageComponent.vue';
 
 export default {
   components: {
     VueDraggableResizable,
     Note,
-    ImageComponent,
+    ToDoList,
+    ImageComponent
   },
   setup() {
     const state = reactive({
-      elements: JSON.parse(localStorage.getItem('canvas-elements')) || [],
+      elements: JSON.parse(localStorage.getItem('canvas-elements')) || []
     });
 
     const addElement = (type) => {
@@ -45,11 +48,22 @@ export default {
         type: type,
         x: 50,
         y: 50,
-        width: type === 'ImageComponent' ? 200 : 200,
-        height: type === 'ImageComponent' ? 200 : 100,
-        props: type === 'ImageComponent'
+        width: 200,
+        height: 150,
+        props: type === 'ToDoList'
+          ? {
+              title: 'My To-Do List',
+              items: [{ text: 'Sample Task', done: false }]
+            }
+          : type === 'ImageComponent'
           ? { src: '', width: 200, height: 200 }
-          : { text: 'New Note', fontSize: 16, fontFamily: 'Arial', fontColor: '#000000', backgroundColor: '#ffffff' },
+          : {
+              text: 'New Note',
+              fontSize: 16,
+              fontFamily: 'Arial',
+              fontColor: '#000000',
+              backgroundColor: '#ffffff'
+            }
       };
       state.elements.push(newElement);
       saveElements();
@@ -87,9 +101,9 @@ export default {
       resizeElement,
       dragElement,
       updateElementProps,
-      clearCanvas,
+      clearCanvas
     };
-  },
+  }
 };
 </script>
 
