@@ -100,7 +100,7 @@ form{
 
 form.register{
     color: #FFF;
-    background-color:#D3C7E6;
+    background-color:#BAD6D2;
 }
 
 h2{
@@ -110,13 +110,9 @@ h2{
 }
 
 h2.register{
-    color:#FFF;
+    color:#BAD6D2;
+    background-color: #BAD6D2;
 }
-
-h2.login{
-    color:#261E1C;
-}
-
 
 input{
     appearance: none;
@@ -151,12 +147,12 @@ form.register input:not([type="submit"]){
 }
 
 form.login input:not([type="submit"]){
-    color:#261E1C;
-    border-bottom: 2px solid #261E1C;
+    color:#BAD6D2;
+    border-bottom: 2px solid #BAD6D2;
 }
 
 form.login input[type="submit"]{
- background-color:#D3C7E6 ;
+ background-color:#BAD6D2 ;
  color:#FFF;
  font-weight: 700;
  padding: 1rem 2rem;
@@ -166,7 +162,7 @@ form.login input[type="submit"]{
 
 form.register input[type="submit"]{
  background-color:#FFF ;
- color:#D3C7E6;
+ color:#BAD6D2;
  font-weight: 700;
  padding: 1rem 2rem;
  border-radius: 0.5rem;

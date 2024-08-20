@@ -1,89 +1,79 @@
 <template>
-  <div class="note-container">
-    <div class="note-content" :style="noteStyle">
-      <textarea v-model="localProps.text" @input="updateProps"></textarea>
-      <button @click="toggleMenu" class="customize-btn">Customize</button>
-    </div>
-    <CustomizationMenu
-      v-if="menuVisible"
-      :visible="menuVisible"
-      :x="menuX"
-      :y="menuY"
-      :props="localProps"
-      @update-props="updateProps"
-    />
+  <div class="note" :style="noteStyle">
+    <textarea v-model="localProps.text" @input="updateText" placeholder="Enter note..."></textarea>
+    <!-- <div class="controls">
+      <label>Font Size:</label>
+      <input type="number" v-model="localProps.fontSize" @input="updateFontSize" min="10" max="50" />
+      <label>Font Color:</label>
+      <input type="color" v-model="localProps.fontColor" @input="updateFontColor" />
+      <label>Background Color:</label>
+      <input type="color" v-model="localProps.backgroundColor" @input="updateBackgroundColor" />
+    </div> -->
   </div>
 </template>
 
 <script>
-import CustomizationMenu from './CustomizationMenu.vue';
-
 export default {
   props: ['props'],
-  components: {
-    CustomizationMenu
-  },
   data() {
     return {
-      localProps: { ...this.props },
-      menuVisible: false,
-      menuX: 0,
-      menuY: 0
+      localProps: { ...this.props }, // Create a local copy of props
     };
   },
   computed: {
     noteStyle() {
       return {
-        fontFamily: this.localProps.fontFamily,
+        fontSize: this.localProps.fontSize + 'px',
         color: this.localProps.fontColor,
-        backgroundColor: this.localProps.backgroundColor
+        backgroundColor: this.localProps.backgroundColor,
       };
-    }
+    },
   },
   methods: {
-    updateProps(updatedProps) {
-      this.localProps = { ...updatedProps };
+    updateText() {
       this.$emit('update-props', this.localProps);
     },
-    toggleMenu(event) {
-      this.menuVisible = !this.menuVisible;
-      this.menuX = event.clientX;
-      this.menuY = event.clientY;
-    }
+    updateFontSize() {
+      this.$emit('update-props', this.localProps);
+    },
+    updateFontColor() {
+      this.$emit('update-props', this.localProps);
+    },
+    updateBackgroundColor() {
+      this.$emit('update-props', this.localProps);
+    },
   },
   watch: {
     props: {
       handler(newProps) {
         this.localProps = { ...newProps };
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 };
 </script>
 
 <style scoped>
-.note-container {
-  position: relative;
-  border: 1px solid #ddd;
-  background-color: #fff;
-}
-
-.note-content {
+.note {
   padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  position: relative;
 }
-
 textarea {
   width: 100%;
-  height: 100%;
+  height: 60px;
   border: none;
   resize: none;
   outline: none;
+  font-family: inherit;
+  background: transparent;
 }
-
-.customize-btn {
-  position: absolute;
-  top: 5px;
-  left: 5px;
+.controls {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
 }
 </style>

@@ -1,12 +1,22 @@
 <template>
   <div class="todo-list-container">
     <div class="todo-header">
-      <input type="text" v-model="localProps.title" @input="updateProps" placeholder="To-Do List Title" />
+      <input
+        type="text"
+        v-model="localProps.title"
+        @input="updateProps"
+        placeholder="To-Do List Title"
+      />
     </div>
     <ul class="todo-list">
       <li v-for="(item, index) in localProps.items" :key="index">
-        <input type="checkbox" v-model="item.done" />
-        <input type="text" v-model="item.text" @input="updateProps" />
+        <input type="checkbox" v-model="item.done" @change="updateProps" />
+        <input
+          type="text"
+          v-model="item.text"
+          @input="updateProps"
+          placeholder="New Task"
+        />
         <button @click="removeItem(index)">X</button>
       </li>
     </ul>
@@ -19,12 +29,18 @@ export default {
   props: {
     props: {
       type: Object,
-      required: true
-    }
+      default: () => ({
+        title: '',
+        items: [],
+      }),
+    },
   },
   data() {
     return {
-      localProps: { ...this.props }
+      localProps: {
+        title: this.props?.title || '',
+        items: this.props?.items || [], // Ensure `items` is always an array
+      },
     };
   },
   methods: {
@@ -32,22 +48,25 @@ export default {
       this.$emit('update-props', this.localProps);
     },
     addItem() {
-      this.localProps.items.push({ text: '', done: false });
-      this.updateProps();
+      this.localProps.items.push({ text: '', done: false }); // Add a new item
+      this.updateProps(); // Emit the updated props
     },
     removeItem(index) {
-      this.localProps.items.splice(index, 1);
-      this.updateProps();
-    }
+      this.localProps.items.splice(index, 1); // Remove the item at the given index
+      this.updateProps(); // Emit the updated props
+    },
   },
   watch: {
     props: {
       handler(newProps) {
-        this.localProps = { ...newProps };
+        this.localProps = {
+          title: newProps?.title || '',
+          items: newProps?.items || [], // Ensure `items` is always an array
+        };
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 };
 </script>
 
