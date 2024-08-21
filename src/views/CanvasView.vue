@@ -1,13 +1,13 @@
 <template>
   <header>
-    
+
   </header>
   <div class="canvas-container">
     <div class="sidebar">
-      <button @click="addElement('Note')" class="fxbtn text-center mx-1">Add Note</button>
-      <button @click="addElement('ToDoList')" class="fxbtn text-center mx-1">Add To-Do List</button>
-      <button @click="addElement('ImageComponent')" class="fxbtn text-center mx-1">Add Image</button>
-      <button @click="clearCanvas" class="clearbtn text-center mx-1">Clear Canvas</button>
+      <button @click="addElement('Note')" class="fxbtn text-center">Créer une Note</button>
+      <button @click="addElement('ToDoList')" class="fxbtn text-center">Nouvelle To-Do List</button>
+      <button @click="addElement('ImageComponent')" class="fxbtn text-center">Ajouter une image</button>
+      <button @click="clearCanvas" class="clearbtn text-center">Vider le canvas</button>
     </div>
     <div class="canvas dot-grid">
       <vue-draggable-resizable
@@ -141,6 +141,7 @@ export default {
   font-size: 14px;
   padding: 10px 24px;
   border: none;
+  margin:auto;
 }
 
 .clearbtn{
