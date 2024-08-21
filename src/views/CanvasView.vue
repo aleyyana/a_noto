@@ -1,5 +1,6 @@
 <template>
   <header>
+    <img src="../assets/img/logo_1.png" alt="">
 
   </header>
   <div class="canvas-container">
@@ -118,7 +119,7 @@ export default {
 }
 .sidebar {
   width: 200px;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   padding: 10px;
 }
 .canvas {
@@ -151,5 +152,6 @@ export default {
   font-size: 14px;
   padding: 10px 24px;
   border: 3px solid #E9D7C0;
+  background-color: #ffffff;
 }
 </style>

@@ -88,9 +88,15 @@ export default{
   height: 80px;
 }
 
+.card{
+  border-color: #BAD6D1;
+  border-radius: 25px;
+  border-width: 3px;
+}
+
 .card-title{
   font-size: 1.2rem;
-  color: #7F803E;
+  color:#BAD6D1;
 }
 
 </style>
