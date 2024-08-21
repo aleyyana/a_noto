@@ -1,23 +1,15 @@
 <template>
-  <div class="todo-list-container">
-    <div class="todo-header">
-      <input
-        type="text"
-        v-model="localProps.title"
-        @input="updateProps"
-        placeholder="To-Do List Title"
-      />
-    </div>
-    <ul class="todo-list">
-      <li v-for="(item, index) in localProps.items" :key="index">
-        <input type="checkbox" v-model="item.done" @change="updateProps" />
-        <input
-          type="text"
-          v-model="item.text"
-          @input="updateProps"
-          placeholder="New Task"
+  <div class="todo-list">
+    <h2>To-Do List</h2>
+    <ul>
+      <li v-for="(item, index) in items" :key="index">
+        <input 
+          type="text" 
+          v-model="item.text" 
+          placeholder="Enter to-do item" 
+          @input="updateItem(index, item.text)" 
         />
-        <button @click="removeItem(index)">X</button>
+        <button @click="removeItem(index)">Remove</button>
       </li>
     </ul>
     <button @click="addItem">Add Item</button>
@@ -25,79 +17,57 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
-  props: {
-    props: {
-      type: Object,
-      default: () => ({
-        title: '',
-        items: [],
-      }),
-    },
-  },
-  data() {
-    return {
-      localProps: {
-        title: this.props?.title || '',
-        items: this.props?.items || [], // Ensure `items` is always an array
-      },
+  setup() {
+    // Initialize the list of items
+    const items = ref([]);
+
+    // Function to add a new item
+    const addItem = () => {
+      items.value.push({ text: '' });
     };
-  },
-  methods: {
-    updateProps() {
-      this.$emit('update-props', this.localProps);
-    },
-    addItem() {
-      this.localProps.items.push({ text: '', done: false }); // Add a new item
-      this.updateProps(); // Emit the updated props
-    },
-    removeItem(index) {
-      this.localProps.items.splice(index, 1); // Remove the item at the given index
-      this.updateProps(); // Emit the updated props
-    },
-  },
-  watch: {
-    props: {
-      handler(newProps) {
-        this.localProps = {
-          title: newProps?.title || '',
-          items: newProps?.items || [], // Ensure `items` is always an array
-        };
-      },
-      deep: true,
-    },
+
+    // Function to update an item (optional, if needed)
+    const updateItem = (index, text) => {
+      items.value[index].text = text;
+    };
+
+    // Function to remove an item
+    const removeItem = (index) => {
+      items.value.splice(index, 1);
+    };
+
+    return {
+      items,
+      addItem,
+      updateItem,
+      removeItem,
+    };
   },
 };
 </script>
 
 <style scoped>
-.todo-list-container {
-  border: 1px solid #ddd;
-  padding: 10px;
-  background-color: #fff;
-}
-.todo-header input {
-  width: 100%;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
 .todo-list {
+  max-width: 400px;
+  margin: auto;
+}
+ul {
   list-style: none;
   padding: 0;
 }
-.todo-list li {
+li {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
-.todo-list li input[type="text"] {
+input {
   flex-grow: 1;
-  margin-right: 10px;
+  padding: 5px;
 }
-.todo-list li button {
-  background-color: red;
-  color: white;
-  border: none;
-  cursor: pointer;
+button {
+  margin-left: 10px;
 }
 </style>

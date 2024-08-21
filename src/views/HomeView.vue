@@ -1,18 +1,16 @@
 <template>
   <HeaderView/>
   <main class="home">
-    <h1 class="text-center">Accueil</h1>
     <section class="about">
       <div class="container">
 
           <div class="row">
-              <div class="col-12 text-center">
+              <div class="col text-center">
                   <img src="../assets/img/bullet_2.jpg" alt="">
               </div>
 
-              <div class="blank-space"></div>
-              <div class="col-12 text-center">
-                  <h2 class="text-center">A propos de A Noto</h2>
+              <div class="col  text-center">
+                <h1 class="text-center">A Noto</h1>
                  <p> A noto est un bullet journal en ligne qui vous permet de prendre votre vie en main. 
                   <br>
                   <span class="question">Tu cherches à organiser ta vie ? </span>
@@ -30,6 +28,8 @@
           </div>
 
       </div>
+
+      <div class="blank-space"></div>
     </section>
     <section class="video">
       <div class="container video text-center">
@@ -82,8 +82,11 @@ import HeaderView from '../components/HeaderView.vue'
 img{
   /* width: 729px; */
   max-width: 100%;
-  height: 526px;
   flex-shrink: 0; 
+}
+
+.blank-space{
+  height: 150px;
 }
 
 .video{
@@ -92,18 +95,18 @@ img{
 }
 
 
-.blank-space{
-  height: 20px;
-}
-
 .question{
   font-weight: bolder;
 }
 
 .btn{
-  padding: 10px;
-    background-color: #f1b598;
-    border-radius: 0.5rem;
+  background-color: #E9D7C0;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 10px 24px;
+  border: none;
 
 }
 

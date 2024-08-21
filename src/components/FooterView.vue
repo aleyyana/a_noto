@@ -5,7 +5,7 @@
       <footer class="row footer">
     
         <div class="links col col-xs-12 col-sm-3 col-sm-pull-6">
-          <router-link class="footer-links nav nav-link"  to="/">Home</router-Link>
+          <router-link class="nav-item nav-link"  to="/">Home</router-Link>
           <router-link class="nav-item nav-link" to="/about">FAQ</router-link>
           <router-link class="nav-item nav-link" to="/feat">Fonctions</router-link>
         </div>

@@ -1,10 +1,13 @@
 <template>
+  <header>
+    
+  </header>
   <div class="canvas-container">
     <div class="sidebar">
-      <button @click="addElement('Note')">Add Note</button>
-      <button @click="addElement('ToDoList')">Add To-Do List</button>
-      <button @click="addElement('ImageComponent')">Add Image</button>
-      <button @click="clearCanvas">Clear Canvas</button>
+      <button @click="addElement('Note')" class="fxbtn text-center mx-1">Add Note</button>
+      <button @click="addElement('ToDoList')" class="fxbtn text-center mx-1">Add To-Do List</button>
+      <button @click="addElement('ImageComponent')" class="fxbtn text-center mx-1">Add Image</button>
+      <button @click="clearCanvas" class="clearbtn text-center mx-1">Clear Canvas</button>
     </div>
     <div class="canvas dot-grid">
       <vue-draggable-resizable
@@ -128,5 +131,24 @@ export default {
   background-color: #ffffff;
   background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
   background-size: 20px 20px;
+}
+
+.fxbtn{
+  background-color: #E9D7C0;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 10px 24px;
+  border: none;
+}
+
+.clearbtn{
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 10px 24px;
+  border: 3px solid #E9D7C0;
 }
 </style>

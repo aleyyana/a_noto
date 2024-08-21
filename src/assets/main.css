@@ -9,6 +9,9 @@
 
   h1{
     font-family: Brother Signature;
+    text-decoration: underline;
+    text-decoration-color: #B3D9E0;
+    font-size: 35px;
   }
   
 

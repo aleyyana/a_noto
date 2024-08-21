@@ -32,32 +32,16 @@ html{
 }
 
 .btn_logout{
-  padding: 10px;
-    width: 100px;
-    background-color: #f1b598;
-    border-radius: 1.5rem;
+  padding: 10px 24px;
+  width: 100px;
+  background-color: #BAD6D1;
+  border-radius: 1.5rem;
+  border:none;
 }
 
 .navbar-brand{
   width: 100px;
 }
 
-
-
-/* h1, h2, h3, h4, h5{
-  font-family: Moniqa, sans-serif;
-  color: #7F803E;
-}
-
-
-
-p{
-  font-family: Excon-Regular, sans-serif;
-  color:#7F803E;
-} */
-
-.nav-link{
-  color:#7F803E;
-}
 
 </style>

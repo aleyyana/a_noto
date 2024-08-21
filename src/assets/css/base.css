@@ -1,12 +1,7 @@
 @import '../fonts/Excon/css/excon.css';
 
-  @font-face {
-    font-family: Moniqa;
-    src: url('../fonts/Moniqa/ttf/Moniqa-Display.ttf')
-  }
 
   @font-face {
     font-family: Brother Signature;
     src: url('../fonts/brother-signature-font/BrotherSignature-7BWnK.otf');
   }
-

@@ -26,7 +26,7 @@
 
             <form class="login" @submit.prevent="login">
 
-                <h2 class="text-center">Connexion</h2>
+                <h2 class="text-center login">Connexion</h2>
                 <input 
                     type="email" 
                     placeholder="Adresse E-mail"
@@ -112,6 +112,10 @@ h2{
 h2.register{
     color:#BAD6D2;
     background-color: #BAD6D2;
+}
+
+h2.login{
+    color:#BAD6D2;
 }
 
 input{
