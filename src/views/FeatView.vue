@@ -2,7 +2,7 @@
     <HeaderView/>
     <main>
         <h1 class="text-center">Fonctionnalités du site</h1>
-        <section class="calendar">
+        <!-- <section class="calendar">
             <div class="container">
                 <div class="row">
                     <div class="col text-center">
@@ -17,9 +17,9 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
-        <div class="blank-space"></div>
+        <!-- <div class="blank-space"></div> -->
 
         <section class="tasks">
             <div class="container">
@@ -32,7 +32,42 @@
                         </p>
                     </div>
                     <div class="col">
-                        <img  class="mx-auto" src="../assets/img/tasks.png" alt="">
+                        <img  class="mx-auto" src="../assets/img/add_todolist.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="blank-space"></div>
+
+        <section class="notes">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <img  class="mx-auto" src="../assets/img/add_note.png" alt="">
+                    </div>
+                    <div class="col text-center">
+                        <h4 class="text-center">Faire des notes</h4>
+                        <p class="text_feat">Si tu veux raconter ta vie, c'est ici. Prends des notes faciles et arrange les sur ton canvas comme tu le souhaites
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="blank-space"></div>
+
+        <section class="image">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <h4 class="text-center">Ajouter des images</h4>
+                        <p class="text_feat">Décore ton bullet journal avec les images que tu veux intégrer. 
+                            Tu peux y mettre ta propre empreinte pour te sentir vraiment comme chez toi.
+                        </p>
+                    </div>
+                    <div class="col">
+                        <img  class="mx-auto" src="../assets/img/add_image.png" alt="">
                     </div>
                 </div>
             </div>

@@ -31,12 +31,13 @@ import Note from '../components/NoteView.vue';
 import ToDoList from '../components/ToDoList.vue';
 import ImageComponent from '../components/ImageComponent.vue';
 
+
 export default {
   components: {
     VueDraggableResizable,
     Note,
     ToDoList,
-    ImageComponent
+    ImageComponent,
   },
   setup() {
     const state = reactive({
@@ -64,6 +65,7 @@ export default {
               fontColor: '#000000',
               backgroundColor: '#ffffff'
             }
+          
       };
       state.elements.push(newElement);
       saveElements();
