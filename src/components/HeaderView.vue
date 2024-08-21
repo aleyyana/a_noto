@@ -1,7 +1,5 @@
 <template>
-
     <NavBar/>
-    <RouterLink to="/"><img src="../assets/img/logo_black.png" alt="logo" class="logo navbar-brand"></RouterLink>
 </template>
 
 <script>
