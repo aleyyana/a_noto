@@ -7,6 +7,11 @@
         <section class="forms">
             <form class="register" @submit.prevent="register">
                 <h2 class="text-center">Inscription</h2>
+                <!-- <input 
+                    type="name" 
+                    placeholder="Pseudo"
+                    v-model="register_form.name"
+                   /> -->
                 <input 
                     type="email" 
                     placeholder="Adresse E-mail"
@@ -75,8 +80,7 @@ export default{
     },
     components:{
         HeaderView
-    }
-
+    },
 }
 
 </script>

@@ -1,13 +1,20 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex'
 import router from '../router'
-import { auth } from '../firebase'
+import { auth } from '../firebase/firebaseConfig'
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
-  signOut 
+  signOut,
 } from 'firebase/auth'
 
 export default createStore({
+  data(){
+    return{
+      email: '',
+      password: '',
+    }
+  }
+  ,
   state: {
     user:null
   },
@@ -23,7 +30,7 @@ export default createStore({
   },
   actions: {
     async login ({ commit }, details){
-      const { email, password } = details
+      const {email, password } = details
 
       try{
         await signInWithEmailAndPassword(auth, email, password)

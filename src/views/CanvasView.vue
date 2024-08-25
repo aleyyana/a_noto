@@ -5,6 +5,7 @@
   </header>
   <div class="canvas-container">
     <div class="sidebar">
+      <router-link class="nav-item nav-link" to="/profile">Profil</router-link> 
       <button @click="addElement('Note')" class="fxbtn text-center">Créer une Note</button>
       <button @click="addElement('ToDoList')" class="fxbtn text-center">Nouvelle To-Do List</button>
       <button @click="addElement('ImageComponent')" class="fxbtn text-center">Ajouter une image</button>
@@ -34,9 +35,30 @@ import VueDraggableResizable from 'vue-draggable-resizable';
 import Note from '../components/NoteView.vue';
 import ToDoList from '../components/ToDoList.vue';
 import ImageComponent from '../components/ImageComponent.vue';
+// import { ref, set } from 'firebase/database';
+// import { database, auth } from '../firebase/firebaseConfig';
 
 
 export default {
+  data(){
+    return{
+      userData:''
+    }
+  },
+  // methods:{
+  //   async saveData(){
+  //     if (auth.currentUser){
+  //     const userId = auth.currentUser.uid;
+  //     try {
+  //       await set(ref(database, 'users/ +userId'),{
+  //         data: this.userData,
+  //       });
+  //       }catch (error){
+  //       console.erroe(error.message)
+  //       }
+  //     }
+  //   }
+  // },
   components: {
     VueDraggableResizable,
     Note,

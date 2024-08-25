@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { auth } from '../firebase'
+import { auth } from '../firebase/firebaseConfig'
 
 const routes = [
   {
@@ -29,6 +29,14 @@ const routes = [
       requiresAuth: true
     }  
 
+  },
+  {
+    path:'/profile',
+    name: 'Profil',
+    component: () => import('../components/UserProfile.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/feat',
