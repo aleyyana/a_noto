@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import HeaderView from '../components/HeaderView.vue'
+import HeaderView from '../components/HeaderView.vue';
 
  export default{
   components: {
@@ -72,12 +72,19 @@ import HeaderView from '../components/HeaderView.vue'
     setSpeed(speed) {
       this.$refs.videoPlayer.playbackRate = speed;
     },
-  }
+  },
+  setup() {
+  },
  } 
 
 </script>
 
 <style scoped>
+
+[data-scroll-container] {
+  height: 100vh;
+  overflow: hidden;
+}
 
 img{
   /* width: 729px; */

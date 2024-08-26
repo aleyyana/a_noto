@@ -79,18 +79,14 @@
 import HeaderView from '../components/HeaderView.vue'
 
 export default{
-    setup(){
-
-    },
-    components:{
-        HeaderView
-    }
-}
+  components: {
+    HeaderView
+  },
+ } 
 
 </script>
 
 <style scoped>
-
 
 h4{
     text-decoration: underline;
