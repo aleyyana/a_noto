@@ -1,8 +1,9 @@
 <template>
-  <header>
-    <img src="../assets/img/logo_1.png" alt="">
+  <!-- <header>
+    <img src="../assets/img/logo_1.png" alt="" class="logo navbar-brand">
 
-  </header>
+  </header> -->
+  <HeaderView/>
   <div class="canvas-container">
     <div class="sidebar">
       <router-link class="nav-item nav-link" to="/profile">Profil</router-link> 
@@ -12,6 +13,7 @@
       <button @click="clearCanvas" class="clearbtn text-center">Vider le canvas</button>
     </div>
     <div class="canvas dot-grid">
+
       <vue-draggable-resizable
         v-for="(element, index) in elements"
         :key="index"
@@ -22,8 +24,18 @@
         @resizing="resizeElement($event, index)"
         @dragging="dragElement($event, index)"
       >
-        <component :is="element.type" v-bind="element.props" @update-props="updateElementProps(index, $event)" />
+        <component 
+        :is="element.type" 
+        v-bind="element.props" />
       </vue-draggable-resizable>
+
+      <!-- <customization-menu
+      :visible="menuVisible"
+      :position="menuPosition"
+      :elementStyles="selectedNoteStyles"
+      @updateStyles="updateNoteStyles(selectedNoteIndex, $event)"
+      ></customization-menu> -->
+      
     </div>
   </div>
 </template>
@@ -31,39 +43,28 @@
 <script>
 import { reactive, toRefs } from 'vue';
 import VueDraggableResizable from 'vue-draggable-resizable';
-// import 'vue-draggable-resizable/dist/VueDraggableResizable.css';
 import Note from '../components/NoteView.vue';
 import ToDoList from '../components/ToDoList.vue';
 import ImageComponent from '../components/ImageComponent.vue';
-// import { ref, set } from 'firebase/database';
-// import { database, auth } from '../firebase/firebaseConfig';
-
+import HeaderView from '../components/HeaderView.vue';
 
 export default {
   data(){
     return{
-      userData:''
+      userData:'',
+      // menuVisible: false,
+      // menuPosition: { top: 0, left: 0 },
+      // selectedNoteIndex: null,
+      // selectedNoteStyles: {}
     }
   },
-  // methods:{
-  //   async saveData(){
-  //     if (auth.currentUser){
-  //     const userId = auth.currentUser.uid;
-  //     try {
-  //       await set(ref(database, 'users/ +userId'),{
-  //         data: this.userData,
-  //       });
-  //       }catch (error){
-  //       console.erroe(error.message)
-  //       }
-  //     }
-  //   }
-  // },
   components: {
     VueDraggableResizable,
     Note,
     ToDoList,
     ImageComponent,
+    HeaderView,
+
   },
   setup() {
     const state = reactive({
@@ -71,12 +72,13 @@ export default {
     });
 
     const addElement = (type) => {
-      const newElement = {
+      const newElement = ({
         type: type,
         x: 50,
         y: 50,
-        width: 200,
-        height: 150,
+        width: 500,
+        height: 300,
+        isActive: false,
         props: type === 'ToDoList'
           ? {
               title: 'My To-Do List',
@@ -86,13 +88,13 @@ export default {
           ? { src: '', width: 200, height: 200 }
           : {
               text: 'New Note',
-              fontSize: 16,
+              fontSize: '16px',
               fontFamily: 'Arial',
               fontColor: '#000000',
               backgroundColor: '#ffffff'
             }
           
-      };
+      });
       state.elements.push(newElement);
       saveElements();
     };
@@ -123,15 +125,29 @@ export default {
       localStorage.setItem('canvas-elements', JSON.stringify(state.elements));
     };
 
+    // const updateNoteStyles = ({index, newStyles}) => {
+    //   this.notes[index].styles = { ...this.notes[index].styles, ...newStyles };
+    //   this.menuVisible = false; // Hide the menu after applying the styles
+    // };
+
+    // const openCustomizationMenu = ({ id, styles, position }) => {
+    //   this.selectedNoteIndex = id;
+    //   this.selectedNoteStyles = styles;
+    //   this.menuPosition = position;
+    //   this.menuVisible = true;
+    // };
+
     return {
       ...toRefs(state),
       addElement,
       resizeElement,
       dragElement,
       updateElementProps,
-      clearCanvas
+      clearCanvas,
+      // openCustomizationMenu,
+      // updateNoteStyles
     };
-  }
+  },
 };
 </script>
 
@@ -149,7 +165,11 @@ export default {
   position: relative;
   background-color: #ffffff;
   border: 1px solid #ddd;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
 }
+
 .dot-grid {
   background-color: #ffffff;
   background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
@@ -175,5 +195,9 @@ export default {
   padding: 10px 24px;
   border: 3px solid #E9D7C0;
   background-color: #ffffff;
+}
+
+.logo{
+  width:7em;
 }
 </style>

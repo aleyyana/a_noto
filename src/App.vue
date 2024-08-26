@@ -1,5 +1,4 @@
 <template>
-    <button class="btn_logout navbar-right" v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
     <router-view/>
     <FooterView/>
 </template>

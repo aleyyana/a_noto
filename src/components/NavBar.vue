@@ -15,7 +15,7 @@
               <router-link class="nav-item nav-link" to="/canvas">Get Started</router-link>
           </div>
         </div>
-        <!-- <button class="btn_logout" v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button> -->
+        <button class="btn_logout" v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
     </nav>
     </div>
     

@@ -1,27 +1,33 @@
 <template>
-  <div class="note" :style="noteStyle">
-    <textarea v-model="localProps.text" @input="updateText" placeholder="Enter note..."></textarea>
-    <!-- <div class="controls">
-      <label>Font Size:</label>
-      <input type="number" v-model="localProps.fontSize" @input="updateFontSize" min="10" max="50" />
-      <label>Font Color:</label>
-      <input type="color" v-model="localProps.fontColor" @input="updateFontColor" />
-      <label>Background Color:</label>
-      <input type="color" v-model="localProps.backgroundColor" @input="updateBackgroundColor" />
-    </div> -->
+  <div class="note" :style="noteStyles">
+
+    <textarea v-model="localProps.text" @input="updateText" placeholder="Ajouter note" :styles="textareStyles"
+     ></textarea>
   </div>
+  
 </template>
 
 <script>
 export default {
-  props: ['props'],
+  props: {
+    initialStyles: {
+      type: Object,
+      default: () => ({
+        color: '#000000',
+        fontSize: '16px',
+        backgroundColor: '#ffffff',
+      }),
+    },
+  },
+  // props: ['props'],
   data() {
     return {
+      styles: this.initialStyles,
       localProps: { ...this.props }, // Create a local copy of props
     };
   },
   computed: {
-    noteStyle() {
+    noteStyles() {
       return {
         fontSize: this.localProps.fontSize + 'px',
         color: this.localProps.fontColor,
@@ -30,18 +36,20 @@ export default {
     },
   },
   methods: {
+    openmenu(event){
+      this.$emit('openMenu', {
+        id: this._uid,
+        styles : this.styles,
+        position: {
+          top: event.clientY,
+          left: event.clientX,
+        }
+      })
+    },
     updateText() {
       this.$emit('update-props', this.localProps);
     },
-    updateFontSize() {
-      this.$emit('update-props', this.localProps);
-    },
-    updateFontColor() {
-      this.$emit('update-props', this.localProps);
-    },
-    updateBackgroundColor() {
-      this.$emit('update-props', this.localProps);
-    },
+
   },
   watch: {
     props: {

@@ -1,18 +1,27 @@
 <template>
   <div class="todo-list">
-    <h2>To-Do List</h2>
     <ul>
-      <li v-for="(item, index) in items" :key="index">
-        <input 
-          type="text" 
-          v-model="item.text" 
-          placeholder="Enter to-do item" 
-          @input="updateItem(index, item.text)" 
+      <li
+        v-for="(item, index) in items"
+        :key="index"
+        :class="{ completed: item.completed }"
+      >
+        <input
+          type="checkbox"
+          v-model="item.completed"
+          @change="handleComplete(index)"
         />
-        <button @click="removeItem(index)">Remove</button>
+        <span>{{ item.text }}</span>
       </li>
     </ul>
-    <button @click="addItem">Add Item</button>
+    <div class="input-container">
+      <input
+        v-model="newItem"
+        @keyup.enter="addItem"
+        placeholder="Ajouter une to-do..."
+      />
+      <button class="addBtn" @click="addItem">Add</button>
+    </div>
   </div>
 </template>
 
@@ -21,29 +30,28 @@ import { ref } from 'vue';
 
 export default {
   setup() {
-    // Initialize the list of items
     const items = ref([]);
+    const newItem = ref('');
 
-    // Function to add a new item
     const addItem = () => {
-      items.value.push({ text: '' });
+      if (newItem.value.trim()) {
+        items.value.push({ text: newItem.value, completed: false });
+        newItem.value = '';
+      }
     };
 
-    // Function to update an item (optional, if needed)
-    const updateItem = (index, text) => {
-      items.value[index].text = text;
-    };
-
-    // Function to remove an item
-    const removeItem = (index) => {
-      items.value.splice(index, 1);
+    const handleComplete = (index) => {
+      // Mark as completed and remove the item after a brief delay
+      setTimeout(() => {
+        items.value.splice(index, 1);
+      }, 300);
     };
 
     return {
       items,
+      newItem,
       addItem,
-      updateItem,
-      removeItem,
+      handleComplete,
     };
   },
 };
@@ -53,21 +61,57 @@ export default {
 .todo-list {
   max-width: 400px;
   margin: auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
+
 ul {
   list-style: none;
   padding: 0;
 }
+
 li {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-}
-input {
-  flex-grow: 1;
   padding: 5px;
+  background-color: #fff;
+  border-radius: 3px;
+  transition: opacity 0.3s ease;
 }
+
+.completed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
 button {
-  margin-left: 10px;
+  background-color: #DAA390;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 10px 24px;
+  border: none;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 </style>
