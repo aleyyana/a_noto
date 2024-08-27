@@ -35,7 +35,8 @@ export const fetchCanvasData = async () => {
       return {
         notes: Array.isArray(data?.notes) ? data.notes : [],
         todoLists: Array.isArray(data?.todoLists) ? data.todoLists : [],
-        images: Array.isArray(data?.images) ? data.images : []
+        images: Array.isArray(data?.images) ? data.images : [],
+      
       };
     } else {
       console.log('No such document!');

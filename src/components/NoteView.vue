@@ -4,18 +4,17 @@
       <li
         v-for="(note, index) in notes"
         :key="index"
-        :class="{ completed: notes.completed }"
       >
         <span>{{ note.text }}</span>
       </li>
     </ul>
     <div class="input-container">
       <input class="input"
-        v-model="newItem"
-        @keyup.enter="addItem"
+        v-model="newNote"
+        @keyup.enter="addNote"
         placeholder="Ajouter une note"
       />
-      <button v-on:click="isHidden = true"  class="addBtn" @click="addItem">Ajouter</button>
+      <button v-on:click="isHidden = true"  class="addBtn" @click="addNote">Ajouter</button>
     </div>
   </div>
 </template>
@@ -27,7 +26,7 @@ import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; /
 export default {
   setup() {
     const notes= ref([]);
-    const newItem = ref('');
+    const newNote = ref('');
 
     const loadItems = async () => {
       try {
@@ -44,18 +43,18 @@ export default {
       }
     };
 
-    const addItem = async () => {
-      if (newItem.value.trim()) {
-        notes.value.push({ text: newItem.value, completed: false });
-        newItem.value = '';
-        await saveCanvasData([{ type: 'ToDoList', props: { items: notes.value } }]); // Save canvas data to Firestore after adding an item
+    const addNote = async () => {
+      if (notes.value.trim()) {
+        notes.value.push({ text: notes.value, completed: false });
+        newNote.value = '';
+        await saveCanvasData([{ type: 'Note', props: { items: notes.value } }]); // Save canvas data to Firestore after adding an item
       }
     };
 
     const handleComplete = async (index) => {
       setTimeout(async () => {
         notes.value.splice(index, 1);
-        await saveCanvasData([{ type: 'ToDoList', props: { items: notes.value } }]); // Save canvas data to Firestore after removing an item
+        await saveCanvasData([{ type: 'TNote', props: { items: notes.value } }]); // Save canvas data to Firestore after removing an item
       }, 300);
     };
 
@@ -65,8 +64,8 @@ export default {
 
     return {
       notes,
-      newItem,
-      addItem,
+      newNote,
+      addNote,
       handleComplete,
     };
   },

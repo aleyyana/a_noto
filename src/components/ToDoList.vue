@@ -2,25 +2,25 @@
   <div class="todo-list">
     <ul>
       <li
-        v-for="(item, index) in items"
+        v-for="(todoLists, index) in todoListss"
         :key="index"
-        :class="{ completed: item.completed }"
+        :class="{ completed: todoLists.completed }"
       >
         <input class=""
           type="checkbox"
-          v-model="item.completed"
+          v-model="todoLists.completed"
           @change="handleComplete(index)"
         />
-        <span>{{ item.text }}</span>
+        <span>{{ todoLists.text }}</span>
       </li>
     </ul>
     <div class="input-container">
-      <input class="addItem"
-        v-model="newItem"
-        @keyup.enter="addItem"
+      <input class="addtodoLists"
+        v-model="newtodoLists"
+        @keyup.enter="addtodoLists"
         placeholder="Ajouter une to-do..."
       />
-      <button class="addBtn" @click="addItem">Ajouter</button>
+      <button class="addBtn" @click="addtodoLists">Ajouter</button>
     </div>
   </div>
 </template>
@@ -31,47 +31,47 @@ import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; /
 
 export default {
   setup() {
-    const items = ref([]);
-    const newItem = ref('');
+    const todoListss = ref([]);
+    const newtodoLists = ref('');
 
-    const loadItems = async () => {
+    const loadtodoListss = async () => {
       try {
         const canvasData = await fetchCanvasData();
         
         // Access specific arrays within canvasData
-        if (Array.isArray(canvasData.items)) {
-          items.value = canvasData.items;
+        if (Array.isArray(canvasData.todoListss)) {
+          todoListss.value = canvasData.todoListss;
         } else {
-          console.error('canvasData.notes is not an array:', canvasData.items);
+          console.error('canvasData.notes is not an array:', canvasData.todoListss);
         }
       } catch (error) {
-        console.error('Error loading items:', error);
+        console.error('Error loading todoListss:', error);
       }
     };
 
-    const addItem = async () => {
-      if (newItem.value.trim()) {
-        items.value.push({ text: newItem.value, completed: false });
-        newItem.value = '';
-        await saveCanvasData([{ type: 'ToDoList', props: { items: items.value } }]); // Save canvas data to Firestore after adding an item
+    const addtodoLists = async () => {
+      if (newtodoLists.value.trim()) {
+        todoListss.value.push({ text: newtodoLists.value, completed: false });
+        newtodoLists.value = '';
+        await saveCanvasData([{ type: 'ToDoList', props: { todoListss: todoListss.value } }]); // Save canvas data to Firestore after adding an todoLists
       }
     };
 
     const handleComplete = async (index) => {
       setTimeout(async () => {
-        items.value.splice(index, 1);
-        await saveCanvasData([{ type: 'ToDoList', props: { items: items.value } }]); // Save canvas data to Firestore after removing an item
+        todoListss.value.splice(index, 1);
+        await saveCanvasData([{ type: 'ToDoList', props: { todoListss: todoListss.value } }]); // Save canvas data to Firestore after removing an todoLists
       }, 300);
     };
 
     onMounted(async () => {
-      await loadItems(); // Load items from Firestore when the component is mounted
+      await loadtodoListss(); // Load todoListss from Firestore when the component is mounted
     });
 
     return {
-      items,
-      newItem,
-      addItem,
+      todoListss,
+      newtodoLists,
+      addtodoLists,
       handleComplete,
     };
   },
@@ -134,7 +134,7 @@ ul {
 
 li {
   display: flex;
-  align-items: center;
+  align-todoListss: center;
   margin-bottom: 10px;
   padding: 5px;
   background-color: #fff;
@@ -149,7 +149,7 @@ li {
 
 .input-container {
   display: flex;
-  align-items: center;
+  align-todoListss: center;
 }
 
 input[type="text"] {
