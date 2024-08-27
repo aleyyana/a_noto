@@ -91,7 +91,6 @@ export default {
 
 input{
     appearance: none;
-    text-decoration: underline;
     border:none;
     outline:none;
     background: none;
@@ -105,7 +104,7 @@ input{
 }
 
 input:not([type="submit"]){
-    color:#FFF;
+    color: #e9d7c0;
     border-bottom: 2px solid #DAA390;
 }
 
