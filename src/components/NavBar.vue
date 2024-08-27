@@ -1,6 +1,6 @@
 <template>
 
-<header class="navbar">
+<header class="navbar px-3">
     <div class="container">
       <div class="logo">
         <RouterLink to="/"><img src="../assets/img/logo_2.png" alt="logo" class="logo navbar-brand"></RouterLink>
@@ -82,9 +82,9 @@ export default {
 .navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  color: #000;
+  /* align-items: center; */
+  background-color: #bad6d1;
+  color: #bad6d1;
 }
 
 .navbar .container {

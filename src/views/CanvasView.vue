@@ -2,7 +2,7 @@
   <HeaderView/>
   <div class="canvas-container">
     <div class="sidebar">
-      <router-link class="nav-item nav-link" to="/profile">Profil</router-link>
+      <!-- <router-link class="nav-item nav-link" to="/profile">Profil</router-link> -->
       <button @click="addElement('Note')" class="fxbtn text-center">Créer une Note</button>
       <button @click="addElement('ToDoList')" class="fxbtn text-center">Nouvelle To-Do List</button>
       <button @click="addElement('ImageComponent')" class="fxbtn text-center">Ajouter une image</button>

@@ -1,80 +1,89 @@
 <template>
+  <div class="profile">
+    <h2>User Profile</h2>
     <div>
-      <h1>User Profile</h1>
-      
-      <!-- Show a loading message until the data is available -->
-      <div v-if="loading">
-        Loading...
-      </div>
-      
-      <!-- Display user data once it is loaded -->
-      <div v-else>
-        <p v-if="userData">Name: {{ userData.name }}</p>
-        <p v-if="userData">Email: {{ userData.email }}</p>
-        
-        <!-- Form to update the user profile -->
-        <form @submit.prevent="updateProfile">
-          <input v-model="userData.name" placeholder="Name" />
-          <input v-model="userData.email" placeholder="Email" />
-          <button type="submit">Update Profile</button>
-        </form>
-      </div>
+      <label>Email:</label>
+      <input type="email" v-model="email" disabled />
     </div>
-  </template>
-  
-  <script>
-  import { getAuth, onAuthStateChanged } from "firebase/auth";
-  import { getDatabase, ref, onValue, set } from "firebase/database";
-  
-  export default {
-    data() {
-      return {
-        userData: null,  // User data from Firebase
-        loading: true,   // Loading state to handle asynchronous data fetching
-      };
-    },
-    created() {
-      const auth = getAuth();
-      const database = getDatabase();
-  
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          const userRef = ref(database, "users/" + user.uid);
-  
-          // Listen for changes in the user's data
-          onValue(userRef, (snapshot) => {
-            this.userData = snapshot.val();
-            this.loading = false;  // Data is loaded, stop loading
-          });
-        } else {
-          this.loading = false;  // Stop loading if no user is authenticated
-        }
-      });
-    },
-    methods: {
-      updateProfile() {
-        const auth = getAuth();
-        const database = getDatabase();
+    <div>
+      <label>Username:</label>
+      <input type="text" v-model="username" @blur="updateProfile" />
+    </div>
+    <div>
+      <label>New Password:</label>
+      <input type="password" v-model="newPassword" />
+    </div>
+    <button @click="changePassword">Change Password</button>
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    <p v-if="successMessage" class="success">{{ successMessage }}</p>
+  </div>
+</template>
+
+<script>
+import { auth, db } from '../firebase/firebaseConfig';
+
+export default {
+  data() {
+    return {
+      email: '',
+      username: '',
+      newPassword: '',
+      errorMessage: '',
+      successMessage: '',
+    };
+  },
+  async created() {
+    const user = auth.currentUser;
+    if (user) {
+      this.email = user.email;
+      const doc = await db.collection('users').doc(user.uid).get();
+      this.username = doc.exists ? doc.data().username : '';
+    }
+  },
+  methods: {
+    async updateProfile() {
+      try {
         const user = auth.currentUser;
-  
         if (user) {
-          const userRef = ref(database, "users/" + user.uid);
-  
-          // Update the user's data
-          set(userRef, this.userData)
-            .then(() => {
-              console.log("Profile updated successfully");
-            })
-            .catch((error) => {
-              console.error("Error updating profile: ", error);
-            });
+          await db.collection('users').doc(user.uid).set({
+            username: this.username,
+          });
+          this.successMessage = 'Profile updated successfully!';
+          this.errorMessage = '';
         }
-      },
+      } catch (error) {
+        this.errorMessage = error.message;
+        this.successMessage = '';
+      }
     },
-  };
-  </script>
-  
-  <style scoped>
-  /* Add your styles here */
-  </style>
-  
+    async changePassword() {
+      try {
+        const user = auth.currentUser;
+        if (user && this.newPassword) {
+          await user.updatePassword(this.newPassword);
+          this.successMessage = 'Password changed successfully!';
+          this.errorMessage = '';
+          this.newPassword = ''; // Clear password field
+        }
+      } catch (error) {
+        this.errorMessage = error.message;
+        this.successMessage = '';
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+.profile {
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;
+}
+.error {
+  color: red;
+}
+.success {
+  color: green;
+}
+</style>
