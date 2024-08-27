@@ -24,7 +24,7 @@ export const saveCanvasData = async (canvasData) => {
 // Fetch canvas data from Firestore
 export const fetchCanvasData = async () => {
   try {
-    const userId = 'currentUserId'; // Replace with actual user ID
+    const userId = ''; // Replace with actual user ID
     const docRef = doc(db, 'users', userId);
     const docSnap = await getDoc(docRef);
 
