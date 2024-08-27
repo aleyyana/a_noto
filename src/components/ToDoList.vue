@@ -6,7 +6,7 @@
         :key="index"
         :class="{ completed: item.completed }"
       >
-        <input class="input"
+        <input class=""
           type="checkbox"
           v-model="item.completed"
           @change="handleComplete(index)"
@@ -15,7 +15,7 @@
       </li>
     </ul>
     <div class="input-container">
-      <input
+      <input class="addItem"
         v-model="newItem"
         @keyup.enter="addItem"
         placeholder="Ajouter une to-do..."
@@ -89,8 +89,22 @@ export default {
   background-color: #f9f9f9;
 }
 
-input{
+/* input{
     appearance: none;
+    border:none;
+    outline:none;
+    background: none;
+
+    display:block;
+    width: 100%;
+    max-width: 400px;
+    margin:0 auto 1rem;
+    font-size: rem;
+    padding: 0.5 rem 0rem;
+} */
+
+.input-container input{
+  appearance: none;
     border:none;
     outline:none;
     background: none;
@@ -103,10 +117,15 @@ input{
     padding: 0.5 rem 0rem;
 }
 
-input:not([type="submit"]){
-    color: #e9d7c0;
+.input-container input::placeholder{
+    color:inherit;
+}
+
+.input-container input:not([type="submit"]){
+  color: #e9d7c0;
     border-bottom: 2px solid #DAA390;
 }
+
 
 ul {
   list-style: none;

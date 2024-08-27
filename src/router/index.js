@@ -31,14 +31,6 @@ const routes = [
 
   },
   {
-    path:'/profile',
-    name: 'Profil',
-    component: () => import('../components/UserProfile.vue'),
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/feat',
     name: 'Fonctions',
     component: () => import('../views/FeatView.vue'), 

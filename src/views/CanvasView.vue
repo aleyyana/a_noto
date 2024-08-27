@@ -52,6 +52,7 @@ export default {
       elements: []
     });
 
+
     const addElement = async (type) => {
       const newElement = {
         type: type,
@@ -67,11 +68,7 @@ export default {
           : type === 'ImageComponent'
           ? { src: '', width: 200, height: 200 }
           : {
-              text: '',
-              fontSize: '16px',
-              fontFamily: 'Arial',
-              fontColor: '#000000',
-              backgroundColor: '#ffffff'
+            items: [{ text: 'Sample Task', done: false }]
             }
       };
 
