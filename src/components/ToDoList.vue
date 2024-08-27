@@ -2,7 +2,7 @@
   <div class="todo-list">
     <ul>
       <li
-        v-for="(todoLists, index) in todoListss"
+        v-for="(todoLists, index) in todoLists"
         :key="index"
         :class="{ completed: todoLists.completed }"
       >
@@ -31,18 +31,18 @@ import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; /
 
 export default {
   setup() {
-    const todoListss = ref([]);
+    const todoLists = ref([]);
     const newtodoLists = ref('');
 
-    const loadtodoListss = async () => {
+    const loadtodoLists = async () => {
       try {
         const canvasData = await fetchCanvasData();
         
         // Access specific arrays within canvasData
         if (Array.isArray(canvasData.todoListss)) {
-          todoListss.value = canvasData.todoListss;
+          todoLists.value = canvasData.todoLists;
         } else {
-          console.error('canvasData.notes is not an array:', canvasData.todoListss);
+          console.error('canvasData.notes is not an array:', canvasData.todoLists);
         }
       } catch (error) {
         console.error('Error loading todoListss:', error);
@@ -51,25 +51,25 @@ export default {
 
     const addtodoLists = async () => {
       if (newtodoLists.value.trim()) {
-        todoListss.value.push({ text: newtodoLists.value, completed: false });
+        todoLists.value.push({ text: newtodoLists.value, completed: false });
         newtodoLists.value = '';
-        await saveCanvasData([{ type: 'ToDoList', props: { todoListss: todoListss.value } }]); // Save canvas data to Firestore after adding an todoLists
+        await saveCanvasData([{ type: 'ToDoList', props: { todoListss: todoLists.value } }]); // Save canvas data to Firestore after adding an todoLists
       }
     };
 
     const handleComplete = async (index) => {
       setTimeout(async () => {
-        todoListss.value.splice(index, 1);
-        await saveCanvasData([{ type: 'ToDoList', props: { todoListss: todoListss.value } }]); // Save canvas data to Firestore after removing an todoLists
+        todoLists.value.splice(index, 1);
+        await saveCanvasData([{ type: 'ToDoList', props: { todoListss: todoLists.value } }]); // Save canvas data to Firestore after removing an todoLists
       }, 300);
     };
 
     onMounted(async () => {
-      await loadtodoListss(); // Load todoListss from Firestore when the component is mounted
+      await loadtodoLists(); // Load todoListss from Firestore when the component is mounted
     });
 
     return {
-      todoListss,
+      todoLists,
       newtodoLists,
       addtodoLists,
       handleComplete,
@@ -134,7 +134,7 @@ ul {
 
 li {
   display: flex;
-  align-todoListss: center;
+  align-items: center;
   margin-bottom: 10px;
   padding: 5px;
   background-color: #fff;
@@ -149,7 +149,7 @@ li {
 
 .input-container {
   display: flex;
-  align-todoListss: center;
+  align-items: center;
 }
 
 input[type="text"] {
