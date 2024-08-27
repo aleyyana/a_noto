@@ -6,7 +6,7 @@
         :key="index"
         :class="{ completed: item.completed }"
       >
-        <input
+        <input class="input"
           type="checkbox"
           v-model="item.completed"
           @change="handleComplete(index)"
@@ -20,7 +20,7 @@
         @keyup.enter="addItem"
         placeholder="Ajouter une to-do..."
       />
-      <button class="addBtn" @click="addItem">Add</button>
+      <button class="addBtn" @click="addItem">Ajouter</button>
     </div>
   </div>
 </template>
@@ -89,6 +89,26 @@ export default {
   background-color: #f9f9f9;
 }
 
+input{
+    appearance: none;
+    text-decoration: underline;
+    border:none;
+    outline:none;
+    background: none;
+
+    display:block;
+    width: 100%;
+    max-width: 400px;
+    margin:0 auto 1rem;
+    font-size: rem;
+    padding: 0.5 rem 0rem;
+}
+
+input:not([type="submit"]){
+    color:#FFF;
+    border-bottom: 2px solid #DAA390;
+}
+
 ul {
   list-style: none;
   padding: 0;
@@ -130,7 +150,8 @@ button {
   font-size: 14px;
   padding: 10px 24px;
   border: none;
-  margin: 5px;
+  color:#fff;
+  font-family: Excon-Medium;
 }
 
 </style>

@@ -1,10 +1,11 @@
 <template>
+    <div class="blank-space"></div>
   <main class="home">
     <section class="about">
       <div class="container">
 
-          <div class="row">
-              <div class="col-12 text-center">
+          <div class="row justify-content-center">
+              <div class="col col-m-5 text-center">
                   <img src="../assets/img/bullet_2.jpg" alt="">
               </div>
 
@@ -30,7 +31,7 @@
 
       <div class="blank-space"></div>
     </section>
-    <section class="video col-12">
+    <section class="video col">
       <div class="container video text-center">
       <video height="500" ref="videoPlayer" class="responsive_video">
           <source
@@ -76,11 +77,6 @@
 
 <style scoped>
 
-[data-scroll-container] {
-  height: 100vh;
-  overflow: hidden;
-}
-
 img{
   /* width: 729px; */
   max-width: 100%;
@@ -88,7 +84,7 @@ img{
 }
 
 .blank-space{
-  height: 150px;
+  height: 50px;
 }
 
 .video{

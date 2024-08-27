@@ -1,5 +1,6 @@
 <template>
   <HeaderView/>
+  <div class="blank-space"></div>
   <div class="canvas-container">
     <div class="sidebar">
       <!-- <router-link class="nav-item nav-link" to="/profile">Profil</router-link> -->
@@ -56,8 +57,8 @@ export default {
         type: type,
         x: 50,
         y: 50,
-        width: 300,
-        height: 300,
+        width: 350,
+        height: 'auto',
         props: type === 'ToDoList'
           ? {
               title: 'My To-Do List',
@@ -168,6 +169,10 @@ export default {
 .canvas-container {
   display: flex;
 }
+
+.blank-space{
+  height:50px;
+}
 .sidebar {
   width: 200px;
   background-color: #ffffff;
@@ -191,6 +196,7 @@ export default {
 
 .fxbtn{
   background-color: #E9D7C0;
+  color:#ffffff;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px;
@@ -198,6 +204,7 @@ export default {
   padding: 10px 24px;
   border: none;
   margin:auto;
+  font-family: Excon-Medium;
 }
 
 .clearbtn{
@@ -206,8 +213,10 @@ export default {
   border-radius: 50px;
   font-size: 14px;
   padding: 10px 24px;
+  color:#E9D7C0;
   border: 3px solid #E9D7C0;
   background-color: #ffffff;
+  font-family: Excon-Medium;
 }
 
 .logo{

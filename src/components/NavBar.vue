@@ -75,8 +75,10 @@ export default {
   border-radius: 50px;
   font-size: 14px;
   padding: 10px 24px;
+  color: #E9D7C0;
   border: 3px solid #E9D7C0;
   background-color: #ffffff;
+  font-family: Excon-Medium;
 }
 
 .navbar {
@@ -111,8 +113,10 @@ export default {
 }
 
 .navbar nav ul li a {
-  color: #000;
+  color: #fff;
   text-decoration: none;
+  font-family: Excon-Medium;
+  padding-top: 2em;
 }
 
 .menu-toggle {

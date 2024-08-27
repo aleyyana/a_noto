@@ -1,5 +1,7 @@
 <template>
-  <main class="about">
+
+  <div class="blank-space"></div>
+  <main class="about mx-5 px-5">
     <section class="Header">
       <h1 class="text-center">A Noto, c'est quoi ?</h1>
     </section>
@@ -84,8 +86,9 @@ export default{
   }
 
   .blank-space{
-  height: 80px;
-}
+    height: 50px;
+  }
+
 
 .card{
   border-color: #BAD6D1;

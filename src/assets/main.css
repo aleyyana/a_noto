@@ -4,6 +4,7 @@
     /* box-sizing: border-box; */
     padding: 0;
     margin:0;
+    background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
   }
 
 
@@ -11,8 +12,13 @@
     font-family: Brother Signature;
     text-decoration: underline;
     text-decoration-color: #B3D9E0;
-    font-size: 35px;
+    font-size: 50px;
   }
+
+  p, h3{
+    font-family: Excon-regular;
+  }
+
   
 
 

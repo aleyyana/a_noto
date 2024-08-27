@@ -10,12 +10,12 @@
       </li>
     </ul>
     <div class="input-container">
-      <input
+      <input class="input"
         v-model="newItem"
         @keyup.enter="addItem"
         placeholder="Ajouter une note"
       />
-      <button v-on:click="isHidden = true"  class="addBtn" @click="addItem">Ajouter une Note</button>
+      <button v-on:click="isHidden = true"  class="addBtn" @click="addItem">Ajouter</button>
     </div>
   </div>
 </template>
@@ -106,6 +106,26 @@ li {
   align-items: center;
 }
 
+input{
+    appearance: none;
+    text-decoration: underline;
+    border:none;
+    outline:none;
+    background: none;
+
+    display:block;
+    width: 100%;
+    max-width: 400px;
+    margin:0 auto 1rem;
+    font-size: rem;
+    padding: 0.5 rem 0rem;
+}
+
+input:not([type="submit"]){
+    color:#FFF;
+    border-bottom: 2px solid #DAA390;
+}
+
 input[type="text"] {
   flex-grow: 1;
   margin-right: 10px;
@@ -114,15 +134,17 @@ input[type="text"] {
   border-radius: 3px;
 }
 
-button {
+.addBtn {
   background-color: #DAA390;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px;
-  font-size: 14px;
+  font-size: 12px;
   padding: 10px 24px;
   border: none;
-  margin: 5px;
+  color:#fff;
+  font-family: Excon-Medium;
 }
+
 
 </style>
