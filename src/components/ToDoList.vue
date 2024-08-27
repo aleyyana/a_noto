@@ -35,10 +35,17 @@ export default {
     const newItem = ref('');
 
     const loadItems = async () => {
-      const canvasData = await fetchCanvasData();
-      const toDoList = canvasData.find(element => element.type === 'ToDoList');
-      if (toDoList) {
-        items.value = toDoList.props.items;
+      try {
+        const canvasData = await fetchCanvasData();
+        
+        // Access specific arrays within canvasData
+        if (Array.isArray(canvasData.items)) {
+          items.value = canvasData.items;
+        } else {
+          console.error('canvasData.notes is not an array:', canvasData.items);
+        }
+      } catch (error) {
+        console.error('Error loading items:', error);
       }
     };
 
@@ -126,7 +133,4 @@ button {
   margin: 5px;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
 </style>

@@ -2,25 +2,20 @@
   <div class="todo-list">
     <ul>
       <li
-        v-for="(item, index) in items"
+        v-for="(note, index) in notes"
         :key="index"
-        :class="{ completed: item.completed }"
+        :class="{ completed: notes.completed }"
       >
-        <input
-          type="checkbox"
-          v-model="item.completed"
-          @change="handleComplete(index)"
-        />
-        <span>{{ item.text }}</span>
+        <span>{{ note.text }}</span>
       </li>
     </ul>
     <div class="input-container">
       <input
         v-model="newItem"
         @keyup.enter="addItem"
-        placeholder="Ajouter une to-do..."
+        placeholder="Ajouter une note"
       />
-      <button class="addBtn" @click="addItem">Add</button>
+      <button v-on:click="isHidden = true"  class="addBtn" @click="addItem">Ajouter une Note</button>
     </div>
   </div>
 </template>
@@ -31,29 +26,36 @@ import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; /
 
 export default {
   setup() {
-    const items = ref([]);
+    const notes= ref([]);
     const newItem = ref('');
 
     const loadItems = async () => {
-      const canvasData = await fetchCanvasData();
-      const toDoList = canvasData.find(element => element.type === 'ToDoList');
-      if (toDoList) {
-        items.value = toDoList.props.items;
+      try {
+        const canvasData = await fetchCanvasData();
+        
+        // Access specific arrays within canvasData
+        if (Array.isArray(canvasData.notes)) {
+          notes.value = canvasData.notes;
+        } else {
+          console.error('canvasData.notes is not an array:', canvasData.notes);
+        }
+      } catch (error) {
+        console.error('Error loading items:', error);
       }
     };
 
     const addItem = async () => {
       if (newItem.value.trim()) {
-        items.value.push({ text: newItem.value, completed: false });
+        notes.value.push({ text: newItem.value, completed: false });
         newItem.value = '';
-        await saveCanvasData([{ type: 'ToDoList', props: { items: items.value } }]); // Save canvas data to Firestore after adding an item
+        await saveCanvasData([{ type: 'ToDoList', props: { items: notes.value } }]); // Save canvas data to Firestore after adding an item
       }
     };
 
     const handleComplete = async (index) => {
       setTimeout(async () => {
-        items.value.splice(index, 1);
-        await saveCanvasData([{ type: 'ToDoList', props: { items: items.value } }]); // Save canvas data to Firestore after removing an item
+        notes.value.splice(index, 1);
+        await saveCanvasData([{ type: 'ToDoList', props: { items: notes.value } }]); // Save canvas data to Firestore after removing an item
       }, 300);
     };
 
@@ -62,7 +64,7 @@ export default {
     });
 
     return {
-      items,
+      notes,
       newItem,
       addItem,
       handleComplete,
@@ -97,10 +99,7 @@ li {
   transition: opacity 0.3s ease;
 }
 
-.completed {
-  opacity: 0.5;
-  text-decoration: line-through;
-}
+
 
 .input-container {
   display: flex;
@@ -126,7 +125,4 @@ button {
   margin: 5px;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
 </style>
