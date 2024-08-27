@@ -1,98 +1,132 @@
 <template>
-  <div class="note" :style="noteStyles">
-    <textarea 
-      v-model="note.text" 
-      @input="updateText" 
-      placeholder="Ajouter note"
-      :style="textareaStyles"
-    ></textarea>
+  <div class="todo-list">
+    <ul>
+      <li
+        v-for="(item, index) in items"
+        :key="index"
+        :class="{ completed: item.completed }"
+      >
+        <input
+          type="checkbox"
+          v-model="item.completed"
+          @change="handleComplete(index)"
+        />
+        <span>{{ item.text }}</span>
+      </li>
+    </ul>
+    <div class="input-container">
+      <input
+        v-model="newItem"
+        @keyup.enter="addItem"
+        placeholder="Ajouter une to-do..."
+      />
+      <button class="addBtn" @click="addItem">Add</button>
+    </div>
   </div>
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
 import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; // Import Firestore service functions
 
 export default {
-  props: ['initialText', 'styles'],
-  data() {
+  setup() {
+    const items = ref([]);
+    const newItem = ref('');
+
+    const loadItems = async () => {
+      const canvasData = await fetchCanvasData();
+      const toDoList = canvasData.find(element => element.type === 'ToDoList');
+      if (toDoList) {
+        items.value = toDoList.props.items;
+      }
+    };
+
+    const addItem = async () => {
+      if (newItem.value.trim()) {
+        items.value.push({ text: newItem.value, completed: false });
+        newItem.value = '';
+        await saveCanvasData([{ type: 'ToDoList', props: { items: items.value } }]); // Save canvas data to Firestore after adding an item
+      }
+    };
+
+    const handleComplete = async (index) => {
+      setTimeout(async () => {
+        items.value.splice(index, 1);
+        await saveCanvasData([{ type: 'ToDoList', props: { items: items.value } }]); // Save canvas data to Firestore after removing an item
+      }, 300);
+    };
+
+    onMounted(async () => {
+      await loadItems(); // Load items from Firestore when the component is mounted
+    });
+
     return {
-      note: {
-        text: this.initialText || '',
-      },
-      localProps: { ...this.styles }, // Create a local copy of styles prop
+      items,
+      newItem,
+      addItem,
+      handleComplete,
     };
   },
-  computed: {
-    noteStyles() {
-      return {
-        fontSize: this.localProps.fontSize + 'px',
-        color: this.localProps.fontColor,
-        backgroundColor: this.localProps.backgroundColor,
-      };
-    },
-    textareaStyles() {
-      return {
-        fontSize: this.localProps.fontSize + 'px',
-        color: this.localProps.fontColor,
-      };
-    },
-  },
-  methods: {
-    updateText() {
-      this.$emit('update', this.note);  // Emit updated note data to parent component
-      saveCanvasData();  // Save canvas data to Firestore whenever the text is updated
-    },
-    openmenu(event) {
-      this.$emit('openMenu', {
-        id: this._uid,
-        styles: this.styles,
-        position: {
-          top: event.clientY,
-          left: event.clientX,
-        }
-      });
-    },
-  },
-  watch: {
-    styles: {
-      handler(newStyles) {
-        this.localProps = { ...newStyles };
-      },
-      deep: true,
-    },
-  },
-  async mounted() {
-    // If you need to fetch the note data specifically when the component is mounted
-    const canvasData = await fetchCanvasData();
-    // Update the note's text if it has changed
-    const noteFromCanvas = canvasData.find(item => item.type === 'Note' && item.props.text === this.note.text);
-    if (noteFromCanvas) {
-      this.note.text = noteFromCanvas.props.text;
-    }
-  }
 };
 </script>
 
+
 <style scoped>
-.note {
-  padding: 10px;
+.todo-list {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
   border: 1px solid #ddd;
-  margin-bottom: 10px;
+  border-radius: 5px;
   background-color: #f9f9f9;
-  position: relative;
 }
-textarea {
-  width: 100%;
-  height: 60px;
-  border: none;
-  resize: none;
-  outline: none;
-  font-family: inherit;
-  background: transparent;
+
+ul {
+  list-style: none;
+  padding: 0;
 }
-.controls {
+
+li {
   display: flex;
-  flex-direction: column;
-  margin-top: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 3px;
+  transition: opacity 0.3s ease;
+}
+
+.completed {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+button {
+  background-color: #DAA390;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 10px 24px;
+  border: none;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 </style>

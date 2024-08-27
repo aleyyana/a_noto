@@ -1,38 +1,59 @@
 <template>
   <div class="image-container">
     <input type="file" @change="handleFileUpload" />
-    <img v-if="localProps.src" :src="localProps.src" :style="imageStyle" />
-    <div class="controls" v-if="localProps.src">
-      <label>Width:</label>
-      <input type="number" v-model="localProps.width" @input="updateDimensions" min="50" max="1000" />
-      <label>Height:</label>
-      <input type="number" v-model="localProps.height" @input="updateDimensions" min="50" max="1000" />
+    <div v-for="(image, index) in localProps.images" :key="index" class="image-item">
+      <img :src="image.src" :style="getImageStyle(image)" />
+      <!-- <div class="controls">
+        <label>Width:</label>
+        <input 
+          type="number" 
+          v-model.number="image.width" 
+          @input="updateDimensions(index)" 
+          min="50" 
+          max="1000" 
+        />
+        <label>Height:</label>
+        <input 
+          type="number" 
+          v-model.number="image.height" 
+          @input="updateDimensions(index)" 
+          min="50" 
+          max="1000" 
+        />
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; // Adjust the path accordingly
 
 export default {
-  props: ['props'],
+  props: {
+    props: Object,
+  },
   setup(props, { emit }) {
-    const localProps = ref({ ...props });
+    const localProps = ref({ images: [] });
 
-    const imageStyle = computed(() => ({
-      width: localProps.value.width + 'px',
-      height: localProps.value.height + 'px',
-    }));
+    const getImageStyle = (image) => ({
+      width: image.width + 'px',
+      height: image.height + 'px',
+    });
 
     const handleFileUpload = (event) => {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          localProps.value.src = e.target.result;
+          // Add new image to the array
+          localProps.value.images.push({
+            src: e.target.result,
+            width: 200,
+            height: 200,
+          });
           emit('update-props', localProps.value);
-          saveCanvasData(); // Save canvas data to Firestore
+          saveCanvasData(localProps.value).catch(err => console.error('Error saving canvas data:', err));
         };
         reader.readAsDataURL(file);
       }
@@ -40,19 +61,21 @@ export default {
 
     const updateDimensions = () => {
       emit('update-props', localProps.value);
-      saveCanvasData(); // Save canvas data to Firestore
+      saveCanvasData(localProps.value).catch(err => console.error('Error saving canvas data:', err));
     };
 
     onMounted(async () => {
-      const canvasData = await fetchCanvasData();
-      const imageComponent = canvasData.find(element => element.type === 'ImageComponent');
-      if (imageComponent) {
-        localProps.value = { ...imageComponent.props };
+      try {
+        const canvasData = await fetchCanvasData();
+        const images = canvasData.filter(element => element.type === 'ImageComponent');
+        localProps.value.images = images.map(image => image.props);
+      } catch (err) {
+        console.error('Error fetching canvas data:', err);
       }
     });
 
     watch(
-      () => props,
+      () => props.props,
       (newProps) => {
         localProps.value = { ...newProps };
       },
@@ -61,7 +84,7 @@ export default {
 
     return {
       localProps,
-      imageStyle,
+      getImageStyle,
       handleFileUpload,
       updateDimensions,
     };
@@ -75,6 +98,9 @@ export default {
   padding: 10px;
   border: 1px solid #ddd;
   background-color: #f9f9f9;
+}
+.image-item {
+  margin-bottom: 10px;
 }
 .controls {
   margin-top: 10px;

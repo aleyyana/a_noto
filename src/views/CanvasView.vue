@@ -52,23 +52,12 @@ export default {
       elements: []
     });
 
-    const sanitizeElements = (elements) => {
-      return elements.map(element => {
-        // Ensure that all required fields are present and initialized
-        if (!element) return null;
-        return {
-          ...element,
-          props: element.props || {} // Ensure props is always an object
-        };
-      }).filter(element => element !== null); // Remove any null elements
-    };
-
     const addElement = async (type) => {
       const newElement = {
         type: type,
         x: 50,
         y: 50,
-        width: 500,
+        width: 300,
         height: 300,
         props: type === 'ToDoList'
           ? {
@@ -116,9 +105,21 @@ export default {
       const user = auth.currentUser;
       if (user) {
         try {
-          const sanitizedElements = sanitizeElements(state.elements); // Sanitize data
+              const sanitizedElements = state.elements.map(element => {
+            // Ensure all required fields are present and initialized
+            return {
+              type: element.type || 'Unknown',
+              x: element.x || 0,
+              y: element.y || 0,
+              width: element.width || 0,
+              height: element.height || 0,
+              props: element.props || {}
+            };
+          }); // Sanitize data
+
+          console.log('Sanitized elements:', sanitizedElements);
           const userDocRef = doc(db, 'users', user.uid);
-          await setDoc(userDocRef, { canvasData: sanitizedElements });
+          await setDoc(userDocRef, { canvasData: sanitizedElements }, {merge: true});
           console.log('Canvas data saved successfully');
         } catch (error) {
           console.error('Error saving canvas data:', error);
@@ -165,5 +166,52 @@ export default {
 </script>
 
 <style scoped>
-/* Your styles here */
+.canvas-container {
+  display: flex;
+}
+.sidebar {
+  width: 200px;
+  background-color: #ffffff;
+  padding: 10px;
+}
+.canvas {
+  flex-grow: 1;
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+}
+
+.dot-grid {
+  background-color: #ffffff;
+  background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
+  background-size: 20px 20px;
+}
+
+.fxbtn{
+  background-color: #E9D7C0;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 10px 24px;
+  border: none;
+  margin:auto;
+}
+
+.clearbtn{
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 10px 24px;
+  border: 3px solid #E9D7C0;
+  background-color: #ffffff;
+}
+
+.logo{
+  width:7em;
+}
 </style>

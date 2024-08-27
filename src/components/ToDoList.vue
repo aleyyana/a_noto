@@ -42,23 +42,23 @@ export default {
       }
     };
 
-    const addItem = () => {
+    const addItem = async () => {
       if (newItem.value.trim()) {
         items.value.push({ text: newItem.value, completed: false });
         newItem.value = '';
-        saveCanvasData(); // Save canvas data to Firestore after adding an item
+        await saveCanvasData([{ type: 'ToDoList', props: { items: items.value } }]); // Save canvas data to Firestore after adding an item
       }
     };
 
-    const handleComplete = (index) => {
-      setTimeout(() => {
+    const handleComplete = async (index) => {
+      setTimeout(async () => {
         items.value.splice(index, 1);
-        saveCanvasData(); // Save canvas data to Firestore after removing an item
+        await saveCanvasData([{ type: 'ToDoList', props: { items: items.value } }]); // Save canvas data to Firestore after removing an item
       }, 300);
     };
 
-    onMounted(() => {
-      loadItems(); // Load items from Firestore when the component is mounted
+    onMounted(async () => {
+      await loadItems(); // Load items from Firestore when the component is mounted
     });
 
     return {
@@ -70,6 +70,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .todo-list {
