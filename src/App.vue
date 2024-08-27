@@ -1,4 +1,5 @@
 <template>
+  <Navbar/>
     <router-view/>
     <FooterView/>
 </template>
@@ -7,6 +8,7 @@
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import FooterView from './components/FooterView.vue';
+import Navbar from './components/NavBar.vue'
 
 
 export default{
@@ -19,6 +21,7 @@ export default{
   },
   components:{
     FooterView,
+    Navbar
   },
 }
 

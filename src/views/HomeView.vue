@@ -1,15 +1,14 @@
 <template>
-  <HeaderView/>
   <main class="home">
     <section class="about">
       <div class="container">
 
           <div class="row">
-              <div class="col text-center">
+              <div class="col-12 text-center">
                   <img src="../assets/img/bullet_2.jpg" alt="">
               </div>
 
-              <div class="col  text-center">
+              <div class="col text-center">
                 <h1 class="text-center">A Noto</h1>
                  <p> A noto est un bullet journal en ligne qui vous permet de prendre votre vie en main. 
                   <br>
@@ -31,7 +30,7 @@
 
       <div class="blank-space"></div>
     </section>
-    <section class="video">
+    <section class="video col-12">
       <div class="container video text-center">
       <video height="500" ref="videoPlayer" class="responsive_video">
           <source
@@ -51,12 +50,8 @@
 </template>
 
 <script>
-import HeaderView from '../components/HeaderView.vue';
 
  export default{
-  components: {
-    HeaderView
-  },
   methods:{
     play() {
       this.$refs.videoPlayer.play();

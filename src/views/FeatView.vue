@@ -1,5 +1,4 @@
 <template>
-    <HeaderView/>
     <main>
         <h1 class="text-center">Fonctionnalités du site</h1>
         <!-- <section class="calendar">
@@ -31,7 +30,7 @@
                             dans ta tête, c'est point la faute de A Noto. Alors, note toujours tes tâches, ça facilite la vie.
                         </p>
                     </div>
-                    <div class="col">
+                    <div class="col text-center">
                         <img  class="mx-auto" src="../assets/img/add_todolist.png" alt="">
                     </div>
                 </div>
@@ -43,15 +42,15 @@
         <section class="notes">
             <div class="container">
                 <div class="row">
-                    <div class="col">
-                        <img  class="mx-auto" src="../assets/img/add_note.png" alt="">
-                    </div>
                     <div class="col text-center">
                         <h4 class="text-center">Faire des notes</h4>
                         <p class="text_feat">Si tu veux raconter ta vie, c'est ici. Prends des notes faciles et arrange les sur ton canvas comme tu le souhaites
                         </p>
                     </div>
                 </div>
+                    <div class="col text-center">
+                        <img  class="mx-auto" src="../assets/img/add_note.png" alt="">
+                    </div>
             </div>
         </section>
 
@@ -76,11 +75,10 @@
 </template>
 
 <script>
-import HeaderView from '../components/HeaderView.vue'
+
 
 export default{
   components: {
-    HeaderView
   },
  } 
 

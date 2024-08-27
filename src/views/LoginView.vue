@@ -1,5 +1,4 @@
 <template>
-    <HeaderView/>
     <main class="login">
         <section class="title">
             <h1 class="text-center">Bienvenue sur A Noto, lance toi dans l'aventure !</h1>
@@ -55,7 +54,6 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex';
-import HeaderView from '@/components/HeaderView.vue';
 
 export default{
     setup(){
@@ -77,9 +75,6 @@ export default{
             login, 
             register
         }
-    },
-    components:{
-        HeaderView
     },
 }
 

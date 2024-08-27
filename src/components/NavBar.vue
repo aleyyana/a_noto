@@ -1,27 +1,65 @@
 <template>
 
-<div id="nav" class="header">
-    <nav class="navbar navbar-expand-lg navbar-fixed-top">
-      <RouterLink to="/"><img src="../assets/img/logo_2.png" alt="logo" class="logo navbar-brand"></RouterLink>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div class="navbar-nav mr-auto">
-              <router-link class="nav-item nav-link" to="/">Home</router-link> 
-              <router-link class="nav-item nav-link" to="/about">FAQ</router-link>
-              <router-link class="nav-item nav-link" to="/feat">Fonctions</router-link>
-              <router-link class="nav-item nav-link" to="/canvas">Get Started</router-link>
-          </div>
-        </div>
-        <button class="btn_logout" v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
-    </nav>
+<header class="navbar">
+    <div class="container">
+      <div class="logo">
+        <RouterLink to="/"><img src="../assets/img/logo_2.png" alt="logo" class="logo navbar-brand"></RouterLink>
+      </div>
+      <nav :class="{ 'is-active': isNavOpen }">
+        <ul>
+          <li v-for="link in links" :key="link.text">
+              <router-link :to="link.to">{{ link.text }}</router-link>
+          </li>
+          <!-- Conditionally show the logout button if the user is authenticated -->
+          <li>
+            <button class="logout-button" v-if="$store.state.user" @click="$store.dispatch('logout')">Logout</button>
+          </li>
+        </ul>
+        
+      </nav>
+      <button class="menu-toggle" @click="toggleNav">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
     </div>
+  </header>
+
     
 </template>
 
 <script>
+
+export default {
+  data() {
+    return {
+      isNavOpen: false,
+      links: [
+        { text: 'Home', to: '/' },
+        { text: 'About', to: '/about' },
+        { text: 'Fonctionnalités', to: '/feat' },
+        {text:  'Mon Canvas', to: '/login' }
+        
+      ]
+    };
+  },
+  methods: {
+    toggleNav() {
+      this.isNavOpen = !this.isNavOpen;
+    },
+    logout() {
+      // Handle logout logic here
+      // For example, clearing the user session and redirecting
+      this.isAuthenticated = false;
+      this.$router.push('/login');
+    }
+  },
+  created() {
+    // Example of setting the authenticated state
+    // In a real application, this would likely be based on an API call or a Vuex store
+    this.isAuthenticated = !!localStorage.getItem('userToken'); // Adjust based on your auth logic
+  }
+};
 
 </script>
 
@@ -31,4 +69,80 @@
   width:7em;
 }
 
+.logout-button{
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  font-size: 14px;
+  padding: 10px 24px;
+  border: 3px solid #E9D7C0;
+  background-color: #ffffff;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  color: #000;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar .logo a {
+  color: #000;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.navbar nav {
+  display: flex;
+}
+
+.navbar nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar nav ul li a {
+  color: #000;
+  text-decoration: none;
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle .bar {
+  width: 2rem;
+  height: 0.2rem;
+  background: #DACBDB;
+  border-radius: 0.2rem;
+}
+
+@media (max-width: 768px) {
+  .navbar nav {
+    display: none;
+    flex-direction: column;
+  }
+
+  .navbar nav.is-active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+}
 </style>

@@ -1,5 +1,4 @@
 <template>
-  <HeaderView/>
   <main class="about">
     <section class="Header">
       <h1 class="text-center">A Noto, c'est quoi ?</h1>
@@ -66,12 +65,12 @@
 </template>
 
 <script>
-import HeaderView from '@/components/HeaderView.vue'
+
 
 
 export default{
   components:{
-    HeaderView
+
   }
 
 }

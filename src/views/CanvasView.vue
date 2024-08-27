@@ -35,7 +35,6 @@ import VueDraggableResizable from 'vue-draggable-resizable';
 import Note from '../components/NoteView.vue';
 import ToDoList from '../components/ToDoList.vue';
 import ImageComponent from '../components/ImageComponent.vue';
-import HeaderView from '../components/HeaderView.vue';
 import { db, auth } from '../firebase/firebaseConfig';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
@@ -45,7 +44,7 @@ export default {
     Note,
     ToDoList,
     ImageComponent,
-    HeaderView,
+
   },
   setup() {
     const state = reactive({
