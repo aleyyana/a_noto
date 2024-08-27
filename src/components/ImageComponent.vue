@@ -12,44 +12,59 @@
 </template>
 
 <script>
+import { ref, watch, onMounted, computed } from 'vue';
+import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; // Adjust the path accordingly
+
 export default {
   props: ['props'],
-  data() {
-    return {
-      localProps: { ...this.props },
-    };
-  },
-  computed: {
-    imageStyle() {
-      return {
-        width: this.localProps.width + 'px',
-        height: this.localProps.height + 'px',
-      };
-    },
-  },
-  methods: {
-    handleFileUpload(event) {
+  setup(props, { emit }) {
+    const localProps = ref({ ...props });
+
+    const imageStyle = computed(() => ({
+      width: localProps.value.width + 'px',
+      height: localProps.value.height + 'px',
+    }));
+
+    const handleFileUpload = (event) => {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.localProps.src = e.target.result;
-          this.$emit('update-props', this.localProps);
+          localProps.value.src = e.target.result;
+          emit('update-props', localProps.value);
+          saveCanvasData(); // Save canvas data to Firestore
         };
         reader.readAsDataURL(file);
       }
-    },
-    updateDimensions() {
-      this.$emit('update-props', this.localProps);
-    },
-  },
-  watch: {
-    props: {
-      handler(newProps) {
-        this.localProps = { ...newProps };
+    };
+
+    const updateDimensions = () => {
+      emit('update-props', localProps.value);
+      saveCanvasData(); // Save canvas data to Firestore
+    };
+
+    onMounted(async () => {
+      const canvasData = await fetchCanvasData();
+      const imageComponent = canvasData.find(element => element.type === 'ImageComponent');
+      if (imageComponent) {
+        localProps.value = { ...imageComponent.props };
+      }
+    });
+
+    watch(
+      () => props,
+      (newProps) => {
+        localProps.value = { ...newProps };
       },
-      deep: true,
-    },
+      { deep: true }
+    );
+
+    return {
+      localProps,
+      imageStyle,
+      handleFileUpload,
+      updateDimensions,
+    };
   },
 };
 </script>

@@ -26,26 +26,40 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; // Import Firestore service functions
 
 export default {
   setup() {
     const items = ref([]);
     const newItem = ref('');
 
+    const loadItems = async () => {
+      const canvasData = await fetchCanvasData();
+      const toDoList = canvasData.find(element => element.type === 'ToDoList');
+      if (toDoList) {
+        items.value = toDoList.props.items;
+      }
+    };
+
     const addItem = () => {
       if (newItem.value.trim()) {
         items.value.push({ text: newItem.value, completed: false });
         newItem.value = '';
+        saveCanvasData(); // Save canvas data to Firestore after adding an item
       }
     };
 
     const handleComplete = (index) => {
-      // Mark as completed and remove the item after a brief delay
       setTimeout(() => {
         items.value.splice(index, 1);
+        saveCanvasData(); // Save canvas data to Firestore after removing an item
       }, 300);
     };
+
+    onMounted(() => {
+      loadItems(); // Load items from Firestore when the component is mounted
+    });
 
     return {
       items,

@@ -1,29 +1,25 @@
 <template>
   <div class="note" :style="noteStyles">
-
-    <textarea v-model="localProps.text" @input="updateText" placeholder="Ajouter note" :styles="textareStyles"
-     ></textarea>
+    <textarea 
+      v-model="note.text" 
+      @input="updateText" 
+      placeholder="Ajouter note"
+      :style="textareaStyles"
+    ></textarea>
   </div>
-  
 </template>
 
 <script>
+import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService'; // Import Firestore service functions
+
 export default {
-  props: {
-    initialStyles: {
-      type: Object,
-      default: () => ({
-        color: '#000000',
-        fontSize: '16px',
-        backgroundColor: '#ffffff',
-      }),
-    },
-  },
-  // props: ['props'],
+  props: ['initialText', 'styles'],
   data() {
     return {
-      styles: this.initialStyles,
-      localProps: { ...this.props }, // Create a local copy of props
+      note: {
+        text: this.initialText || '',
+      },
+      localProps: { ...this.styles }, // Create a local copy of styles prop
     };
   },
   computed: {
@@ -34,31 +30,46 @@ export default {
         backgroundColor: this.localProps.backgroundColor,
       };
     },
+    textareaStyles() {
+      return {
+        fontSize: this.localProps.fontSize + 'px',
+        color: this.localProps.fontColor,
+      };
+    },
   },
   methods: {
-    openmenu(event){
+    updateText() {
+      this.$emit('update', this.note);  // Emit updated note data to parent component
+      saveCanvasData();  // Save canvas data to Firestore whenever the text is updated
+    },
+    openmenu(event) {
       this.$emit('openMenu', {
         id: this._uid,
-        styles : this.styles,
+        styles: this.styles,
         position: {
           top: event.clientY,
           left: event.clientX,
         }
-      })
+      });
     },
-    updateText() {
-      this.$emit('update-props', this.localProps);
-    },
-
   },
   watch: {
-    props: {
-      handler(newProps) {
-        this.localProps = { ...newProps };
+    styles: {
+      handler(newStyles) {
+        this.localProps = { ...newStyles };
       },
       deep: true,
     },
   },
+  async mounted() {
+    // If you need to fetch the note data specifically when the component is mounted
+    const canvasData = await fetchCanvasData();
+    // Update the note's text if it has changed
+    const noteFromCanvas = canvasData.find(item => item.type === 'Note' && item.props.text === this.note.text);
+    if (noteFromCanvas) {
+      this.note.text = noteFromCanvas.props.text;
+    }
+  }
 };
 </script>
 
