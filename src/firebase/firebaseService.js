@@ -6,6 +6,7 @@ export const saveCanvasData = async (canvasData) => {
   try {
     const userId = 'currentUserId'; // Replace with actual user ID
     const docRef = doc(db, 'users', userId);
+    
 
     // Ensure canvasData has the correct structure
     const sanitizedData = {
@@ -13,6 +14,9 @@ export const saveCanvasData = async (canvasData) => {
       todoLists: Array.isArray(canvasData.todoLists) ? canvasData.todoLists : [],
       images: Array.isArray(canvasData.images) ? canvasData.images : []
     };
+
+    const userDocRef = doc(db, 'users', userId); // Correct: Document reference with userId
+    await setDoc(userDocRef, { canvasData }, { merge: true });
 
     await setDoc(docRef, { canvasData: sanitizedData });
     console.log('Canvas data saved successfully');
@@ -22,14 +26,14 @@ export const saveCanvasData = async (canvasData) => {
 };
 
 // Fetch canvas data from Firestore
-export const fetchCanvasData = async () => {
+export const fetchCanvasData = async (userId) => {
   try {
-    const userId = ''; // Replace with actual user ID
-    const docRef = doc(db, 'users', userId);
-    const docSnap = await getDoc(docRef);
+    const userDocRef = doc(db, 'users', userId); // Correct: Document reference with userId
+    const docSnapshot = await getDoc(userDocRef);
+    // const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      const data = docSnap.data().canvasData;
+    if (docSnapshot.exists()) {
+      const data = docSnapshot.data().canvasData;
       
       // Ensure canvasData is an object with arrays
       return {
