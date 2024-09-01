@@ -1,5 +1,4 @@
 <template>
-  <HeaderView/>
   <div class="blank-space"></div>
   <div class="canvas-container">
     <div class="sidebar">
@@ -45,35 +44,32 @@ export default {
     Note,
     ToDoList,
     ImageComponent,
-
   },
   setup() {
     const state = reactive({
-      elements: []
+      elements: [],
     });
 
-
     const addElement = async (type) => {
-      const newElement = {
+      let newElement = {
         type: type,
         x: 50,
         y: 50,
         width: 350,
         height: 'auto',
-        props: type === 'ToDoList'
-          ? {
-              title: 'My To-Do List',
-              items: [{ text: 'Sample Task', done: false }]
-            }
-          : type === 'ImageComponent'
-          ? { src: '', width: 200, height: 200 }
-          : {
-            items: [{ text: 'Sample Task', done: false }]
-            }
+        props: {},
       };
 
+      if (type === 'ToDoList') {
+        newElement.props = { items: [{ text: 'Sample Task', done: false }] };
+      } else if (type === 'ImageComponent') {
+        newElement.props = { src: '', width: 200, height: 200 };
+      } else if (type === 'Note') {
+        newElement.props = { content: '' }; // Ensure Note has initial content
+      }
+
       state.elements.push(newElement);
-      await saveElements(); // Save after adding
+      await saveElements(); // Save elements after adding
     };
 
     const resizeElement = async (event, index) => {
@@ -94,7 +90,7 @@ export default {
     };
 
     const clearCanvas = async () => {
-      state.elements = []; // Clear the array
+      state.elements = [];
       await saveElements();
     };
 
@@ -102,21 +98,18 @@ export default {
       const user = auth.currentUser;
       if (user) {
         try {
-              const sanitizedElements = state.elements.map(element => {
-            // Ensure all required fields are present and initialized
-            return {
-              type: element.type || 'Unknown',
-              x: element.x || 0,
-              y: element.y || 0,
-              width: element.width || 0,
-              height: element.height || 0,
-              props: element.props || {}
-            };
-          }); // Sanitize data
+          const sanitizedElements = state.elements.map(element => ({
+            type: element.type || 'Unknown',
+            x: element.x || 0,
+            y: element.y || 0,
+            width: element.width || 0,
+            height: element.height || 0,
+            props: element.props || {}
+          }));
 
           console.log('Sanitized elements:', sanitizedElements);
           const userDocRef = doc(db, 'users', user.uid);
-          await setDoc(userDocRef, { canvasData: sanitizedElements }, {merge: true});
+          await setDoc(userDocRef, { canvasData: sanitizedElements }, { merge: true });
           console.log('Canvas data saved successfully');
         } catch (error) {
           console.error('Error saving canvas data:', error);
@@ -133,7 +126,7 @@ export default {
           const userDocRef = doc(db, 'users', user.uid);
           const docSnap = await getDoc(userDocRef);
           if (docSnap.exists()) {
-            state.elements = docSnap.data().canvasData || []; // Initialize to an empty array if no data
+            state.elements = docSnap.data().canvasData || [];
           } else {
             console.log('No such document!');
           }
@@ -146,7 +139,7 @@ export default {
     };
 
     onMounted(() => {
-      fetchElements(); // Load data when the component is mounted
+      fetchElements();
     });
 
     return {
@@ -159,8 +152,8 @@ export default {
     };
   },
 };
-
 </script>
+
 
 <style scoped>
 .canvas-container {

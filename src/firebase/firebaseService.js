@@ -1,6 +1,7 @@
 import { db } from './firebaseConfig';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
+
 // Save canvas data to Firestore
 export const saveCanvasData = async (canvasData) => {
   try {

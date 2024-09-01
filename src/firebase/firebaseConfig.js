@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -20,6 +20,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log('User is authenticated:', user.uid);
+    // Proceed with Firestore operations
+  } else {
+    console.error('User is not authenticated');
+    // Handle the case where the user is not logged in
+  }
+});
 
 
 

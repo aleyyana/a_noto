@@ -5,7 +5,6 @@ import store from './store'
 import './assets/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
-// import BootstrapVue from 'bootstrap-vue';
 import VCalendar from 'v-calendar';
 import 'v-calendar/style.css';
 import LocomotiveScrollPlugin from './plugins/locomotive-scroll';
