@@ -16,8 +16,8 @@
         :h="element.height"
         :x="element.x"
         :y="element.y"
-        @resizing="resizeElement($event, index)"
         @dragging="dragElement($event, index)"
+        :resizable="false"
       >
         <component 
           :is="element.type" 
@@ -35,8 +35,9 @@ import VueDraggableResizable from 'vue-draggable-resizable';
 import Note from '../components/NoteView.vue';
 import ToDoList from '../components/ToDoList.vue';
 import ImageComponent from '../components/ImageComponent.vue';
-import { db, auth } from '../firebase/firebaseConfig';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { auth } from '../firebase/firebaseConfig';
+import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService';
+// import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 export default {
   components: {
@@ -51,12 +52,12 @@ export default {
     });
 
     const addElement = async (type) => {
-      let newElement = {
+      const  newElement = {
         type: type,
         x: 50,
         y: 50,
         width: 350,
-        height: 'auto',
+        height: '200',
         props: {},
       };
 
@@ -95,48 +96,23 @@ export default {
     };
 
     const saveElements = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        try {
-          const sanitizedElements = state.elements.map(element => ({
-            type: element.type || 'Unknown',
-            x: element.x || 0,
-            y: element.y || 0,
-            width: element.width || 0,
-            height: element.height || 0,
-            props: element.props || {}
-          }));
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      await saveCanvasData(state.elements);
+      console.log('Canvas data saved successfully');
+    } catch (error) {
+      console.error('Error saving canvas data:', error);
+    }
+  } else {
+    console.error('User not authenticated');
+  }
+};
 
-          console.log('Sanitized elements:', sanitizedElements);
-          const userDocRef = doc(db, 'users', user.uid);
-          await setDoc(userDocRef, { canvasData: sanitizedElements }, { merge: true });
-          console.log('Canvas data saved successfully');
-        } catch (error) {
-          console.error('Error saving canvas data:', error);
-        }
-      } else {
-        console.error('User not authenticated');
-      }
-    };
-
-    const fetchElements = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        try {
-          const userDocRef = doc(db, 'users', user.uid);
-          const docSnap = await getDoc(userDocRef);
-          if (docSnap.exists()) {
-            state.elements = docSnap.data().canvasData || [];
-          } else {
-            console.log('No such document!');
-          }
-        } catch (error) {
-          console.error('Error fetching canvas data:', error);
-        }
-      } else {
-        console.error('User not authenticated');
-      }
-    };
+const fetchElements = async () => {
+  const canvasData = await fetchCanvasData();
+  state.elements = canvasData;
+};
 
     onMounted(() => {
       fetchElements();

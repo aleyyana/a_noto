@@ -1,61 +1,84 @@
-import { db } from './firebaseConfig';
+import { db, auth } from './firebaseConfig';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
-
-// Save canvas data to Firestore
+/**
+ * Save canvas data to Firestore.
+ * @param {Array} canvasData - The data to be saved.
+ */
 export const saveCanvasData = async (canvasData) => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.error('User not authenticated');
+    return;
+  }
+
+  if (!Array.isArray(canvasData)) {
+    console.error('canvasData is not an array');
+    return;
+  }
+
   try {
-    const userId = 'currentUserId'; // Replace with actual user ID
-    const docRef = doc(db, 'users', userId);
-    
+    const sanitizedElements = canvasData.map(element => ({
+      type: element.type || 'Unknown',
+      x: element.x || 0,
+      y: element.y || 0,
+      width: element.width || 0,
+      height: element.height || 0,
+      props: element.props || {}
+    }));
 
-    // Ensure canvasData has the correct structure
-    const sanitizedData = {
-      notes: Array.isArray(canvasData.notes) ? canvasData.notes : [],
-      todoLists: Array.isArray(canvasData.todoLists) ? canvasData.todoLists : [],
-      images: Array.isArray(canvasData.images) ? canvasData.images : []
-    };
-
-    const userDocRef = doc(db, 'users', userId); // Correct: Document reference with userId
-    await setDoc(userDocRef, { canvasData }, { merge: true });
-
-    await setDoc(docRef, { canvasData: sanitizedData });
+    console.log('Sanitized elements:', sanitizedElements);
+    const userDocRef = doc(db, 'users', user.uid);
+    await setDoc(userDocRef, { canvasData: sanitizedElements }, { merge: true });
     console.log('Canvas data saved successfully');
   } catch (error) {
     console.error('Error saving canvas data:', error);
   }
 };
 
-// Fetch canvas data from Firestore
-export const fetchCanvasData = async (userId) => {
-  try {
-    const userDocRef = doc(db, 'users', userId); // Correct: Document reference with userId
-    const docSnapshot = await getDoc(userDocRef);
-    // const docSnap = await getDoc(docRef);
+/**
+ * Fetch canvas data from Firestore.
+ * @returns {Promise<Object>} - The fetched canvas data.
+ */
+export const fetchCanvasData = async () => {
+  const user = auth.currentUser;
 
-    if (docSnapshot.exists()) {
-      const data = docSnapshot.data().canvasData;
-      
-      // Ensure canvasData is an object with arrays
-      return {
-        notes: Array.isArray(data?.notes) ? data.notes : [],
-        todoLists: Array.isArray(data?.todoLists) ? data.todoLists : [],
-        images: Array.isArray(data?.images) ? data.images : [],
-      
-      };
+  if (!user) {
+    console.error('User is not authenticated');
+    return [];
+  }
+
+  try {
+    const userDocRef = doc(db, 'users', user.uid);
+    const docSnap = await getDoc(userDocRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const canvasData = Array.isArray(data?.canvasData) ? data.canvasData : [];
+      console.log('Fetched canvas data:', canvasData);
+      return canvasData;
     } else {
-      console.log('No such document!');
-      return { notes: [], todoLists: [], images: [] };
+      console.log('No document found!');
+      return [];
     }
   } catch (error) {
     console.error('Error fetching canvas data:', error);
-    return { notes: [], todoLists: [], images: [] };
+    return [];
   }
 };
 
+/**
+ * Initialize user canvas data in Firestore.
+ */
 export const initializeUserCanvasData = async () => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.error('User is not authenticated');
+    return;
+  }
+
   try {
-    const userId = 'currentUserId'; // Replace with actual user ID
+    const userId = user.uid;
     const docRef = doc(db, 'users', userId);
     const initialData = {
       canvasData: {
@@ -70,4 +93,3 @@ export const initializeUserCanvasData = async () => {
     console.error('Error initializing canvas data:', error);
   }
 };
-

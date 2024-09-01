@@ -2,7 +2,7 @@
   <div class="image-container">
     <input type="file" @change="handleFileUpload" />
     <div v-for="(image, index) in localProps.images" :key="index" class="image-item">
-      <img :src="image.src" :style="getImageStyle(image)" />
+      <img :src="imagesrc" :style="getImageStyle(image)" />
       <!-- <div class="controls">
         <label>Width:</label>
         <input 
