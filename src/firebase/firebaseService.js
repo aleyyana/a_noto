@@ -5,20 +5,20 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
  * Save canvas data to Firestore.
  * @param {Array} canvasData - The data to be saved.
  */
-export const saveCanvasData = async (canvasData) => {
+export const saveCanvasData = async (elements) => {
   const user = auth.currentUser;
   if (!user) {
     console.error('User not authenticated');
     return;
   }
 
-  if (!Array.isArray(canvasData)) {
+  if (!Array.isArray(elements)) {
     console.error('canvasData is not an array');
     return;
   }
 
   try {
-    const sanitizedElements = canvasData.map(element => ({
+    const sanitizedElements = elements.map(element => ({
       type: element.type || 'Unknown',
       x: element.x || 0,
       y: element.y || 0,
@@ -45,7 +45,7 @@ export const fetchCanvasData = async () => {
 
   if (!user) {
     console.error('User is not authenticated');
-    return [];
+    return {};
   }
 
   try {
@@ -53,10 +53,16 @@ export const fetchCanvasData = async () => {
     const docSnap = await getDoc(userDocRef);
 
     if (docSnap.exists()) {
-      const data = docSnap.data();
+      const data = docSnap.data().canvasData || {};
       const canvasData = Array.isArray(data?.canvasData) ? data.canvasData : [];
       console.log('Fetched canvas data:', canvasData);
-      return canvasData;
+      return{
+        todoLists: Array.isArray(data.todoLists) ? data.todoLists : [],
+        notes: Array.isArray(data.notes) ? data.notes : [],
+        images: Array.isArray(data.images) ? data.images : [],
+      } 
+
+      ;
     } else {
       console.log('No document found!');
       return [];

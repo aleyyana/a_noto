@@ -2,25 +2,7 @@
   <div class="image-container">
     <input type="file" @change="handleFileUpload" />
     <div v-for="(image, index) in localProps.images" :key="index" class="image-item">
-      <img :src="imagesrc" :style="getImageStyle(image)" />
-      <!-- <div class="controls">
-        <label>Width:</label>
-        <input 
-          type="number" 
-          v-model.number="image.width" 
-          @input="updateDimensions(index)" 
-          min="50" 
-          max="1000" 
-        />
-        <label>Height:</label>
-        <input 
-          type="number" 
-          v-model.number="image.height" 
-          @input="updateDimensions(index)" 
-          min="50" 
-          max="1000" 
-        />
-      </div> -->
+      <img :src="image.src" :style="getImageStyle(image)" />
     </div>
   </div>
 </template>
@@ -53,6 +35,7 @@ export default {
             height: 200,
           });
           emit('update-props', localProps.value);
+          //*eslint-disable-next-line*
           saveCanvasData(localProps.value).catch(err => console.error('Error saving canvas data:', err));
         };
         reader.readAsDataURL(file);

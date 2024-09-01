@@ -1,44 +1,57 @@
 <template>
-  <vue-draggable-resizable :x="100" :y="100" :w="200" :h="150">
-    <div class="note">
-      <textarea v-model="content" placeholder="Write your note..."></textarea>
-    </div>
-  </vue-draggable-resizable>
+  <div class="note">
+    <textarea v-model="noteContent" @blur="saveContent"></textarea>
+  </div>
 </template>
 
 <script>
-import VueDraggableResizable from 'vue-draggable-resizable';
+import { defineComponent, ref, watch, onMounted } from 'vue';
 
-export default {
-  components: {
-    VueDraggableResizable,
+export default defineComponent({
+  props: {
+    initialContent: {
+      type: String,
+      default: ''
+    },
+    index: Number,
+    onUpdate: Function
   },
-  data() {
-    return {
-      content: '',
+  setup(props) {
+    const noteContent = ref(props.initialContent);
+
+    const saveContent = () => {
+      if (props.index !== undefined) {
+        // Emit an event to update the note content in the parent component
+        props.onUpdate(props.index, { content: noteContent.value });
+      }
     };
-  },
-};
+
+    watch(noteContent, saveContent); // Save content on change
+
+    onMounted(() => {
+      noteContent.value = props.initialContent;
+    });
+
+    return {
+      noteContent,
+      saveContent
+    };
+  }
+});
 </script>
 
 <style scoped>
 .note {
-  width: 100%;
-  height: 100%;
-  display: flex;
+  border: 1px solid #ddd;
   padding: 10px;
-  background-color: #E9D7C0;
-  border: 1px solid #DAA38F;
-  border-radius: 4px;
+  border-radius: 5px;
+  background-color: ##e9d7c0;
 }
-
 textarea {
   width: 100%;
-  height: 100%;
+  height: 100px;
   border: none;
-  resize: none;
-  background: transparent;
-  font-size: 14px;
-  outline: none;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+  padding: 10px;
 }
 </style>

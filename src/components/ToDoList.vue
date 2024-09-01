@@ -42,7 +42,7 @@ export default {
         if (Array.isArray(canvasData.todoListss)) {
           todoLists.value = canvasData.todoLists;
         } else {
-          console.error('canvasData.notes is not an array:', canvasData.todoLists);
+          console.error('canvasData.todoLists is not an array:', canvasData.todoLists);
         }
       } catch (error) {
         console.error('Error loading todoListss:', error);

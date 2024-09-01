@@ -2,7 +2,6 @@
   <div class="blank-space"></div>
   <div class="canvas-container">
     <div class="sidebar">
-      <!-- <router-link class="nav-item nav-link" to="/profile">Profil</router-link> -->
       <button @click="addElement('Note')" class="fxbtn text-center">Créer une Note</button>
       <button @click="addElement('ToDoList')" class="fxbtn text-center">Nouvelle To-Do List</button>
       <button @click="addElement('ImageComponent')" class="fxbtn text-center">Ajouter une image</button>
@@ -37,7 +36,6 @@ import ToDoList from '../components/ToDoList.vue';
 import ImageComponent from '../components/ImageComponent.vue';
 import { auth } from '../firebase/firebaseConfig';
 import { saveCanvasData, fetchCanvasData } from '../firebase/firebaseService';
-// import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 export default {
   components: {
@@ -52,12 +50,18 @@ export default {
     });
 
     const addElement = async (type) => {
-      const  newElement = {
+      console.log('Before adding:', state.elements);
+
+      if (!Array.isArray(state.elements)) {
+    console.error('state.elements is not an array:', state.elements);
+    state.elements = []; // Reinitialize to an empty array
+  }
+      const newElement = {
         type: type,
         x: 50,
         y: 50,
         width: 350,
-        height: '200',
+        height: 200,
         props: {},
       };
 
@@ -70,13 +74,8 @@ export default {
       }
 
       state.elements.push(newElement);
-      await saveElements(); // Save elements after adding
-    };
 
-    const resizeElement = async (event, index) => {
-      state.elements[index].width = event.width;
-      state.elements[index].height = event.height;
-      await saveElements();
+      await saveElements(); // Save elements after adding
     };
 
     const dragElement = async (event, index) => {
@@ -96,23 +95,23 @@ export default {
     };
 
     const saveElements = async () => {
-  const user = auth.currentUser;
-  if (user) {
-    try {
-      await saveCanvasData(state.elements);
-      console.log('Canvas data saved successfully');
-    } catch (error) {
-      console.error('Error saving canvas data:', error);
-    }
-  } else {
-    console.error('User not authenticated');
-  }
-};
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          await saveCanvasData(state.elements);
+          console.log('Canvas data saved successfully');
+        } catch (error) {
+          console.error('Error saving canvas data:', error);
+        }
+      } else {
+        console.error('User not authenticated');
+      }
+    };
 
-const fetchElements = async () => {
-  const canvasData = await fetchCanvasData();
-  state.elements = canvasData;
-};
+    const fetchElements = async () => {
+      const canvasData = await fetchCanvasData();
+      state.elements = canvasData;
+    };
 
     onMounted(() => {
       fetchElements();
@@ -121,7 +120,6 @@ const fetchElements = async () => {
     return {
       ...toRefs(state),
       addElement,
-      resizeElement,
       dragElement,
       updateElementProps,
       clearCanvas,
@@ -129,7 +127,6 @@ const fetchElements = async () => {
   },
 };
 </script>
-
 
 <style scoped>
 .canvas-container {
